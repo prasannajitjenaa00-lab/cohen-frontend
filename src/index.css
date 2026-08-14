@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Lock to the dark blue slate theme as the only theme */
+  --slate-50: 248 250 252;
+  --slate-100: 241 245 249;
+  --slate-200: 226 232 240;
+  --slate-300: 203 213 225;
+  --slate-400: 148 163 184;
+  --slate-450: 100 116 139;
+  --slate-500: 100 116 139;
+  --slate-550: 71 85 105;
+  --slate-600: 71 85 105;
+  --slate-650: 51 65 85;
+  --slate-700: 51 65 85;
+  --slate-800: 30 41 59;
+  --slate-900: 15 23 42;
+  --slate-950: 2 6 23;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-900 text-slate-100 overflow-x-hidden transition-colors duration-200;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Custom scrollbars */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-950;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 dark:bg-slate-800 rounded-full hover:bg-slate-400 dark:hover:bg-slate-700 transition-colors;
+  }
+}
+
+@layer components {
+
+  /* Glassmorphism Styles */
+  .glass-card {
+    @apply bg-slate-900/80 backdrop-blur-xl border border-slate-800/80 shadow-sm dark:shadow-glass-dark rounded-xl transition-all duration-300 dark:bg-slate-900/40;
+  }
+
+  .glass-card-interactive {
+    @apply glass-card hover:bg-slate-900/90 dark:hover:bg-slate-900/60 hover:border-slate-500/30 hover:shadow-md dark:hover:shadow-2xl transition-all duration-300;
+  }
+
+  .glass-input {
+    @apply bg-slate-900 border border-slate-800 rounded-lg py-2 px-3 text-sm text-slate-100 placeholder-slate-400 dark:bg-slate-950/50 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-all duration-200;
+  }
+
+  .glass-btn-primary {
+    @apply bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-medium py-2 px-4 rounded-lg text-sm shadow-md shadow-brand-500/10 active:scale-[0.98] transition-all duration-200 cursor-pointer;
+  }
+
+  .glass-btn-secondary {
+    @apply bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-100 font-medium py-2 px-4 rounded-lg text-sm active:scale-[0.98] transition-all duration-200 cursor-pointer;
+  }
+
+  .glass-btn-danger {
+    @apply bg-rose-600 hover:bg-rose-550 text-white font-medium py-2 px-4 rounded-lg text-sm active:scale-[0.98] transition-all duration-200 cursor-pointer;
+  }
+
+  /* Status Pill styles */
+  .status-pill {
+    @apply px-2 py-0.5 text-xs font-semibold rounded-full border inline-flex items-center gap-1;
+  }
+
+  .status-new {
+    @apply bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20;
+  }
+
+  .status-contacted {
+    @apply bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20;
+  }
+
+  .status-interested {
+    @apply bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20;
+  }
+
+  .status-followup {
+    @apply bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20;
+  }
+
+  .status-visit {
+    @apply bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20;
+  }
+
+  .status-appstarted {
+    @apply bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20;
+  }
+
+  .status-appsubmitted {
+    @apply bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20;
+  }
+
+  .status-confirmed {
+    @apply bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20;
+  }
+
+  .status-notinterested {
+    @apply bg-slate-500/10 text-slate-500 dark:text-slate-400 border-slate-500/20;
+  }
+
+  .status-lost {
+    @apply bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20;
+  }
+
+  /* Priority Indicator styles */
+  .priority-badge {
+    @apply px-2 py-0.5 text-[10px] font-bold rounded uppercase tracking-wider inline-block;
+  }
+
+  .priority-low {
+    @apply bg-slate-800/10 dark:bg-slate-800 text-slate-500 dark:text-slate-400;
+  }
+
+  .priority-medium {
+    @apply bg-blue-500/10 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400;
+  }
+
+  .priority-high {
+    @apply bg-orange-500/10 dark:bg-orange-950 text-orange-600 dark:text-orange-400;
+  }
+
+  .priority-urgent {
+    @apply bg-rose-500/10 dark:bg-rose-950 text-rose-600 dark:text-rose-400 animate-pulse;
+  }
+}
+
+/* Page transitions / micro animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+/* Custom class for Kanban Columns height */
+.kanban-col-height {
+  height: calc(100vh - 200px);
+}

@@ -98,13 +98,13 @@ export default function StaffUsers() {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-100 font-sans">Staff & Counsellors</h2>
+          <h2 className="text-xl font-bold text-slate-800 font-sans">Staff & Counsellors</h2>
           <p className="text-xs text-slate-400">Administer backend portal accounts, permissions, and monitor advisor conversion rates.</p>
         </div>
         <div className="flex items-center gap-3">
           <button
             onClick={fetchUsers}
-            className="p-2 border border-slate-800 bg-slate-900 rounded-lg text-slate-450 hover:text-white cursor-pointer"
+            className="p-2 border border-gray-200 bg-white rounded-lg text-slate-500 hover:text-slate-800 cursor-pointer"
           >
             <RefreshCw className="w-4.5 h-4.5" />
           </button>
@@ -128,7 +128,7 @@ export default function StaffUsers() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-800 text-[10px] text-slate-400 font-semibold uppercase tracking-wider bg-slate-950/40">
+                <tr className="border-b border-gray-200 text-[10px] text-slate-500 font-semibold uppercase tracking-wider bg-gray-50/80">
                   <th className="py-3 px-5">Staff Member</th>
                   <th className="py-3 px-3">Portal Role</th>
                   <th className="py-3 px-3 text-center">Assigned Leads</th>
@@ -138,13 +138,13 @@ export default function StaffUsers() {
                   <th className="py-3 px-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/50 text-xs">
+              <tbody className="divide-y divide-gray-100 text-xs">
                 {users.map((staff) => (
-                  <tr key={staff._id} className="hover:bg-slate-900/20 transition-all">
+                  <tr key={staff._id} className="hover:bg-gray-50 transition-all">
                     {/* Name & email */}
                     <td className="py-3.5 px-5">
                       <div className="space-y-0.5">
-                        <span className="font-bold text-slate-200">{staff.name}</span>
+                        <span className="font-bold text-slate-700">{staff.name}</span>
                         <p className="text-[10px] text-slate-500 font-mono flex items-center gap-1">
                           <Mail className="w-3.5 h-3.5" />
                           <span>{staff.email}</span>
@@ -154,7 +154,7 @@ export default function StaffUsers() {
 
                     {/* Role */}
                     <td className="py-3.5 px-3">
-                      <span className="px-2.5 py-0.5 rounded bg-slate-900 border border-slate-850 text-[10px] font-semibold text-slate-350 flex items-center gap-1.5 w-fit">
+                      <span className="px-2.5 py-0.5 rounded bg-gray-50 border border-gray-200 text-[10px] font-semibold text-slate-350 flex items-center gap-1.5 w-fit">
                         <Shield className="w-3 h-3 text-slate-500" />
                         <span>{staff.role}</span>
                       </span>
@@ -214,15 +214,15 @@ export default function StaffUsers() {
 
       {/* Create Account Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4">
-          <div className="glass-card bg-slate-900 w-full max-w-md border border-slate-800 p-6 animate-fade-in relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+          <div className="glass-card bg-white w-full max-w-md border border-gray-200 p-6 animate-fade-in relative">
             <button
               onClick={() => { setShowAddModal(false); setFormError(''); }}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white cursor-pointer"
+              className="absolute top-4 right-4 text-slate-500 hover:text-slate-800 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
-            <h3 className="text-lg font-bold text-slate-200 mb-2">Create Portal Account</h3>
+            <h3 className="text-lg font-bold text-slate-700 mb-2">Create Portal Account</h3>
             <p className="text-xs text-slate-450 mb-4">Provision credentials for new academic counsellors or administrative office staff.</p>
             
             {formError && (
@@ -282,7 +282,7 @@ export default function StaffUsers() {
                 </select>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
                 <button
                   type="button"
                   onClick={() => { setShowAddModal(false); setFormError(''); }}

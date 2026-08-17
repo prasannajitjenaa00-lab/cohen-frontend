@@ -95,16 +95,16 @@ export default function Topbar({ setMobileOpen }) {
   const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
-    <header className="flex items-center justify-between h-16 px-6 border-b border-slate-800/80 bg-slate-900/40 backdrop-blur-xl">
+    <header className="flex items-center justify-between h-16 px-6 border-b border-gray-200 bg-white backdrop-blur-xl">
       {/* Left title / mobile trigger */}
       <div className="flex items-center gap-4">
         <button
           onClick={() => setMobileOpen(true)}
-          className="p-1 rounded-md text-slate-400 hover:text-white lg:hidden focus:outline-none"
+          className="p-1 rounded-md text-slate-500 hover:text-slate-800 lg:hidden focus:outline-none"
         >
           <Menu className="w-6 h-6" />
         </button>
-        <h1 className="text-lg font-bold text-slate-100 font-sans tracking-wide">
+        <h1 className="text-lg font-bold text-slate-800 font-sans tracking-wide">
           {getPageTitle()}
         </h1>
       </div>
@@ -114,13 +114,13 @@ export default function Topbar({ setMobileOpen }) {
         {/* Global Search Bar */}
         {['/leads', '/pipeline', '/dashboard', '/students', '/admissions'].includes(location.pathname) && (
           <form onSubmit={handleSearchSubmit} className="hidden md:flex items-center relative">
-            <Search className="w-4 h-4 text-slate-500 absolute left-3 pointer-events-none" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 pointer-events-none" />
             <input
               type="text"
               placeholder="Search leads, parents, phone..."
               value={searchVal}
               onChange={(e) => setSearchVal(e.target.value)}
-              className="pl-9 pr-3 py-1.5 w-64 text-xs glass-input focus:w-80 transition-all duration-300"
+              className="pl-9 pr-3 py-1.5 w-64 text-xs bg-gray-50 border border-gray-200 rounded-lg text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-brand-500 focus:w-80 transition-all duration-300"
             />
           </form>
         )}
@@ -129,20 +129,20 @@ export default function Topbar({ setMobileOpen }) {
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="relative p-1.5 rounded-lg border border-slate-800 bg-slate-900/50 text-slate-400 hover:text-slate-100 transition-all cursor-pointer"
+            className="relative p-1.5 rounded-lg border border-gray-200 bg-gray-50 text-slate-500 hover:text-slate-800 hover:bg-gray-100 transition-all cursor-pointer"
           >
             <Bell className="w-4.5 h-4.5" />
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-600 text-[9px] font-bold text-white ring-2 ring-slate-900">
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white ring-2 ring-white">
                 {unreadCount}
               </span>
             )}
           </button>
 
           {showNotifications && (
-            <div className="absolute right-0 mt-2.5 w-80 max-h-96 overflow-y-auto glass-card border border-slate-800 bg-slate-950 p-2 z-50 animate-fade-in shadow-2xl">
-              <div className="flex items-center justify-between px-3 py-2 border-b border-slate-800/80 mb-2">
-                <span className="text-xs font-bold text-slate-200">Alerts & Notifications</span>
+            <div className="absolute right-0 mt-2.5 w-80 max-h-96 overflow-y-auto bg-white border border-gray-200 rounded-xl p-2 z-50 animate-fade-in shadow-xl">
+              <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 mb-2">
+                <span className="text-xs font-bold text-slate-700">Alerts & Notifications</span>
                 {unreadCount > 0 && (
                   <button
                     onClick={markAllRead}
@@ -162,10 +162,10 @@ export default function Topbar({ setMobileOpen }) {
                     <button
                       key={notif._id}
                       onClick={() => handleNotificationClick(notif)}
-                      className={`w-full text-left p-2.5 rounded-lg text-xs transition-colors flex flex-col gap-1 hover:bg-slate-900 ${!notif.read ? 'bg-brand-500/5 border-l-2 border-brand-500' : 'bg-transparent'
+                      className={`w-full text-left p-2.5 rounded-lg text-xs transition-colors flex flex-col gap-1 hover:bg-gray-50 ${!notif.read ? 'bg-brand-50 border-l-2 border-brand-500' : 'bg-transparent'
                         }`}
                     >
-                      <p className="font-medium text-slate-200">{notif.message}</p>
+                      <p className="font-medium text-slate-700">{notif.message}</p>
                       <span className="text-[10px] text-slate-500">
                         {new Date(notif.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} •{' '}
                         {new Date(notif.createdAt).toLocaleDateString()}
@@ -179,7 +179,7 @@ export default function Topbar({ setMobileOpen }) {
         </div>
 
         {/* User Role Pill */}
-        <div className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full border border-slate-800 bg-slate-900/50 text-xs text-slate-300 gap-1.5">
+        <div className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs text-slate-600 gap-1.5">
           <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
           <span className="font-medium">{user?.role}</span>
         </div>

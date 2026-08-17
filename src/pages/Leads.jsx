@@ -281,7 +281,7 @@ export default function Leads() {
       {/* Top action header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-100">Leads Directory</h2>
+          <h2 className="text-xl font-bold text-slate-800">Leads Directory</h2>
           <p className="text-xs text-slate-400">Manage, sort, filters, and allocate student admissions enquiries.</p>
         </div>
         <div className="flex items-center gap-3">
@@ -419,7 +419,7 @@ export default function Leads() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-800 text-[10px] text-slate-400 font-semibold uppercase tracking-wider bg-slate-950/40">
+                <tr className="border-b border-gray-200 text-[10px] text-slate-500 font-semibold uppercase tracking-wider bg-gray-50/80">
                   <th className="py-3 px-5">Lead & Contact</th>
                   <th className="py-3 px-3">Class</th>
                   <th className="py-3 px-3">Source Channel</th>
@@ -431,15 +431,15 @@ export default function Leads() {
                   <th className="py-3 px-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/50 text-xs">
+              <tbody className="divide-y divide-gray-100 text-xs">
                 {leads.map((lead) => (
-                  <tr key={lead._id} className="hover:bg-slate-900/20 transition-all">
+                  <tr key={lead._id} className="hover:bg-gray-50 transition-all">
                     {/* Name & ID & Phone */}
                     <td className="py-3.5 px-5">
                       <div className="space-y-0.5">
                         <div className="flex items-center gap-1.5">
-                          <span className="font-bold text-slate-200">{lead.studentName}</span>
-                          <span className="text-[9px] text-slate-550 font-bold bg-slate-800/80 px-1 rounded">
+                          <span className="font-bold text-slate-700">{lead.studentName}</span>
+                          <span className="text-[9px] text-slate-500 font-bold bg-gray-100 px-1 rounded">
                             {lead.leadId}
                           </span>
                           {lead.duplicateStatus === 'Possible Duplicate' && (
@@ -454,14 +454,14 @@ export default function Leads() {
                     </td>
                     
                     {/* Class */}
-                    <td className="py-3.5 px-3 text-slate-300 font-medium">
+                    <td className="py-3.5 px-3 text-slate-600 font-medium">
                       {lead.classInterested}
                     </td>
 
                     {/* Source */}
                     <td className="py-3.5 px-3">
                       <div className="space-y-0.5">
-                        <span className="text-slate-300 font-medium">{lead.leadSource}</span>
+                        <span className="text-slate-600 font-medium">{lead.leadSource}</span>
                         {lead.campaign && (
                           <p className="text-[9px] text-slate-500 truncate max-w-[120px]" title={lead.campaign}>
                             {lead.campaign}
@@ -487,7 +487,7 @@ export default function Leads() {
                     {/* Counsellor */}
                     <td className="py-3.5 px-3 text-slate-400">
                       {lead.assignedCounsellor ? (
-                        <span className="font-medium text-slate-300">{lead.assignedCounsellor.name}</span>
+                        <span className="font-medium text-slate-600">{lead.assignedCounsellor.name}</span>
                       ) : (
                         <span className="text-slate-650 italic">Unassigned</span>
                       )}
@@ -513,7 +513,7 @@ export default function Leads() {
                         <Link
                           to={`/leads/${lead._id}`}
                           title="View Details"
-                          className="p-1 text-slate-400 hover:text-white rounded hover:bg-slate-800 transition-colors"
+                          className="p-1 text-slate-500 hover:text-slate-800 rounded hover:bg-gray-100 transition-colors"
                         >
                           <Eye className="w-4 h-4" />
                         </Link>
@@ -521,7 +521,7 @@ export default function Leads() {
                           <button
                             title="Assign Counsellor"
                             onClick={() => { setSelectedLead(lead); setShowAssignModal(true); }}
-                            className="p-1 text-slate-450 hover:text-white rounded hover:bg-slate-800 transition-colors cursor-pointer"
+                            className="p-1 text-slate-500 hover:text-slate-800 rounded hover:bg-gray-100 transition-colors cursor-pointer"
                           >
                             <UserCheck className="w-4 h-4" />
                           </button>
@@ -546,7 +546,7 @@ export default function Leads() {
 
         {/* Table Footer with Pagination Controls */}
         {!loading && leads.length > 0 && (
-          <div className="flex items-center justify-between px-6 py-4 border-t border-slate-800 bg-slate-950/20">
+          <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-gray-50/50">
             <span className="text-xs text-slate-500 font-medium">
               Showing {(page - 1) * limit + 1} to {Math.min(page * limit, total)} of {total} leads
             </span>
@@ -554,7 +554,7 @@ export default function Leads() {
               <button
                 disabled={page === 1}
                 onClick={() => setPage(page - 1)}
-                className="p-1 border border-slate-800 rounded bg-slate-900 text-slate-400 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed"
+                className="p-1 border border-gray-200 rounded bg-white text-slate-500 hover:text-slate-800 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -564,7 +564,7 @@ export default function Leads() {
               <button
                 disabled={page === totalPages}
                 onClick={() => setPage(page + 1)}
-                className="p-1 border border-slate-800 rounded bg-slate-900 text-slate-400 hover:text-white disabled:opacity-40 disabled:cursor-not-allowed"
+                className="p-1 border border-gray-200 rounded bg-white text-slate-500 hover:text-slate-800 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
@@ -575,16 +575,16 @@ export default function Leads() {
 
       {/* 1. Modal: Add Lead Form */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4 overflow-y-auto">
-          <div className="glass-card bg-slate-900 w-full max-w-2xl border border-slate-800 p-6 animate-fade-in relative max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 overflow-y-auto">
+          <div className="glass-card bg-white w-full max-w-2xl border border-gray-200 p-6 animate-fade-in relative max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setShowAddModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white cursor-pointer"
+              className="absolute top-4 right-4 text-slate-500 hover:text-slate-800 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
             
-            <h3 className="text-lg font-bold text-slate-200 mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-bold text-slate-700 mb-4 flex items-center gap-2">
               <span>🎓</span> Log New Student Inquiry
             </h3>
 
@@ -738,7 +738,7 @@ export default function Leads() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
@@ -762,17 +762,17 @@ export default function Leads() {
 
       {/* 2. Modal: Assign Counsellor */}
       {showAssignModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4">
-          <div className="glass-card bg-slate-900 w-full max-w-md border border-slate-800 p-6 animate-fade-in relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+          <div className="glass-card bg-white w-full max-w-md border border-gray-200 p-6 animate-fade-in relative">
             <button
               onClick={() => { setShowAssignModal(false); setSelectedLead(null); }}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white cursor-pointer"
+              className="absolute top-4 right-4 text-slate-500 hover:text-slate-800 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
-            <h3 className="text-lg font-bold text-slate-200 mb-2">Assign Academic Advisor</h3>
+            <h3 className="text-lg font-bold text-slate-700 mb-2">Assign Academic Advisor</h3>
             <p className="text-xs text-slate-450 mb-4">
-              Allocate Lead <span className="font-bold text-slate-200">{selectedLead?.studentName} ({selectedLead?.leadId})</span> to an active advisor.
+              Allocate Lead <span className="font-bold text-slate-700">{selectedLead?.studentName} ({selectedLead?.leadId})</span> to an active advisor.
             </p>
             <form onSubmit={handleAssignSubmit} className="space-y-4">
               <div className="space-y-1">
@@ -787,7 +787,7 @@ export default function Leads() {
                   {counsellors.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
                 </select>
               </div>
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
                 <button
                   type="button"
                   onClick={() => { setShowAssignModal(false); setSelectedLead(null); }}

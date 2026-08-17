@@ -42,12 +42,12 @@ export default function Students() {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-100 font-sans">Student Enrolments</h2>
+          <h2 className="text-xl font-bold text-slate-800 font-sans">Student Enrolments</h2>
           <p className="text-xs text-slate-400">Roster of registered active students onboarded from admission pipelines.</p>
         </div>
         <button
           onClick={fetchStudents}
-          className="p-2 border border-slate-800 bg-slate-900 rounded-lg text-slate-450 hover:text-white cursor-pointer self-start"
+          className="p-2 border border-gray-200 bg-white rounded-lg text-slate-500 hover:text-slate-800 cursor-pointer self-start"
         >
           <RefreshCw className="w-4.5 h-4.5" />
         </button>
@@ -89,7 +89,7 @@ export default function Students() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-800 text-[10px] text-slate-400 font-semibold uppercase tracking-wider bg-slate-950/40">
+                <tr className="border-b border-gray-200 text-[10px] text-slate-500 font-semibold uppercase tracking-wider bg-gray-50/80">
                   <th className="py-3 px-5">Student ID</th>
                   <th className="py-3 px-3">Admission ID</th>
                   <th className="py-3 px-3">Student Name</th>
@@ -100,11 +100,11 @@ export default function Students() {
                   <th className="py-3 px-5 text-right">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/50 text-xs">
+              <tbody className="divide-y divide-gray-100 text-xs">
                 {students.map((student) => (
-                  <tr key={student._id} className="hover:bg-slate-900/20 transition-all">
+                  <tr key={student._id} className="hover:bg-gray-50 transition-all">
                     {/* Student ID badge */}
-                    <td className="py-3.5 px-5 font-mono font-bold text-slate-200">
+                    <td className="py-3.5 px-5 font-mono font-bold text-slate-700">
                       {student.studentId}
                     </td>
 
@@ -116,20 +116,20 @@ export default function Students() {
                     {/* Student Name */}
                     <td className="py-3.5 px-3">
                       <div className="space-y-0.5">
-                        <span className="font-bold text-slate-200">{student.studentName}</span>
+                        <span className="font-bold text-slate-700">{student.studentName}</span>
                         <p className="text-[10px] text-slate-500">Parent: {student.parentName}</p>
                       </div>
                     </td>
 
                     {/* Class */}
-                    <td className="py-3.5 px-3 text-slate-300 font-medium">
+                    <td className="py-3.5 px-3 text-slate-600 font-medium">
                       {student.class}
                     </td>
 
                     {/* Contact info */}
                     <td className="py-3.5 px-3">
                       <div className="space-y-0.5 font-mono text-[10px]">
-                        <p className="text-slate-300">{student.phone}</p>
+                        <p className="text-slate-600">{student.phone}</p>
                         {student.email && <p className="text-slate-500">{student.email}</p>}
                       </div>
                     </td>

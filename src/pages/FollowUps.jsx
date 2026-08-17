@@ -90,13 +90,13 @@ export default function FollowUps() {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-100 font-sans">Scheduled Follow-ups</h2>
+          <h2 className="text-xl font-bold text-slate-800 font-sans">Scheduled Follow-ups</h2>
           <p className="text-xs text-slate-400">Track and update active callback reminders and visits.</p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={fetchFollowUps}
-            className="p-2 border border-slate-800 bg-slate-900 rounded-lg text-slate-450 hover:text-white cursor-pointer"
+            className="p-2 border border-gray-200 bg-white rounded-lg text-slate-500 hover:text-slate-800 cursor-pointer"
           >
             <RefreshCw className="w-4.5 h-4.5" />
           </button>
@@ -104,7 +104,7 @@ export default function FollowUps() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex border-b border-slate-800 bg-slate-900/10 p-1 rounded-lg gap-1.5 w-full max-w-lg">
+      <div className="flex border-b border-gray-200 bg-gray-50 p-1 rounded-lg gap-1.5 w-full max-w-lg">
         {[
           { key: 'today', name: 'Today\'s' },
           { key: 'overdue', name: 'Overdue' },
@@ -117,7 +117,7 @@ export default function FollowUps() {
             className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
               filter === tab.key
                 ? 'bg-brand-600 text-white shadow shadow-brand-500/10'
-                : 'text-slate-450 hover:bg-slate-800/40 hover:text-slate-200'
+                : 'text-slate-450 hover:bg-gray-100 hover:text-slate-700'
             }`}
           >
             {tab.name}
@@ -137,7 +137,7 @@ export default function FollowUps() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-800 text-[10px] text-slate-400 font-semibold uppercase tracking-wider bg-slate-950/40">
+                <tr className="border-b border-gray-200 text-[10px] text-slate-500 font-semibold uppercase tracking-wider bg-gray-50/80">
                   <th className="py-3 px-5">Student Name</th>
                   <th className="py-3 px-3">Date</th>
                   <th className="py-3 px-3">Time</th>
@@ -148,17 +148,17 @@ export default function FollowUps() {
                   <th className="py-3 px-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/50 text-xs">
+              <tbody className="divide-y divide-gray-100 text-xs">
                 {followUps.map((item) => {
                   const lead = item.lead || {};
                   const isOverdueItem = filter === 'overdue' || (item.status === 'Pending' && new Date(item.date) < new Date().setHours(0,0,0,0));
 
                   return (
-                    <tr key={item._id} className="hover:bg-slate-900/20 transition-all">
+                    <tr key={item._id} className="hover:bg-gray-50 transition-all">
                       {/* Name with link */}
                       <td className="py-3.5 px-5">
                         <div className="space-y-0.5">
-                          <Link to={`/leads/${lead._id}`} className="font-bold text-slate-200 hover:text-brand-400">
+                          <Link to={`/leads/${lead._id}`} className="font-bold text-slate-700 hover:text-brand-400">
                             {lead.studentName || 'Deleted Lead'}
                           </Link>
                           <p className="text-[10px] text-slate-500">Phone: {lead.phone} • Class: {lead.classInterested}</p>
@@ -176,13 +176,13 @@ export default function FollowUps() {
                       </td>
 
                       {/* Time */}
-                      <td className="py-3.5 px-3 font-mono text-slate-300">
+                      <td className="py-3.5 px-3 font-mono text-slate-600">
                         {item.time}
                       </td>
 
                       {/* Interaction type */}
-                      <td className="py-3.5 px-3 text-slate-300">
-                        <span className="px-2 py-0.5 rounded bg-slate-800 text-[10px] font-semibold border border-slate-700">
+                      <td className="py-3.5 px-3 text-slate-600">
+                        <span className="px-2 py-0.5 rounded bg-gray-100 text-[10px] font-semibold border border-gray-200">
                           {item.type}
                         </span>
                       </td>
@@ -238,17 +238,17 @@ export default function FollowUps() {
 
       {/* Reschedule Modal */}
       {showRescheduleModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4">
-          <div className="glass-card bg-slate-900 w-full max-w-md border border-slate-800 p-6 animate-fade-in relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+          <div className="glass-card bg-white w-full max-w-md border border-gray-200 p-6 animate-fade-in relative">
             <button
               onClick={() => { setShowRescheduleModal(false); setSelectedFollowUp(null); }}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white cursor-pointer"
+              className="absolute top-4 right-4 text-slate-500 hover:text-slate-800 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
-            <h3 className="text-lg font-bold text-slate-200 mb-2">Reschedule Appointment</h3>
+            <h3 className="text-lg font-bold text-slate-700 mb-2">Reschedule Appointment</h3>
             <p className="text-xs text-slate-450 mb-4">
-              Reschedule task for student: <span className="font-bold text-slate-200">{selectedFollowUp?.lead?.studentName}</span>
+              Reschedule task for student: <span className="font-bold text-slate-700">{selectedFollowUp?.lead?.studentName}</span>
             </p>
             <form onSubmit={handleRescheduleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
@@ -283,7 +283,7 @@ export default function FollowUps() {
                   className="w-full glass-input text-xs"
                 />
               </div>
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
                 <button
                   type="button"
                   onClick={() => { setShowRescheduleModal(false); setSelectedFollowUp(null); }}

@@ -106,13 +106,13 @@ export default function Admissions() {
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-100 font-sans">Applications & Admissions</h2>
+          <h2 className="text-xl font-bold text-slate-800 font-sans">Applications & Admissions</h2>
           <p className="text-xs text-slate-400">Track and manage student applications, documentation, and fee clearances.</p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={fetchAdmissions}
-            className="p-2 border border-slate-800 bg-slate-900 rounded-lg text-slate-450 hover:text-white cursor-pointer"
+            className="p-2 border border-gray-200 bg-white rounded-lg text-slate-500 hover:text-slate-800 cursor-pointer"
           >
             <RefreshCw className="w-4.5 h-4.5" />
           </button>
@@ -160,7 +160,7 @@ export default function Admissions() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-800 text-[10px] text-slate-400 font-semibold uppercase tracking-wider bg-slate-950/40">
+                <tr className="border-b border-gray-200 text-[10px] text-slate-500 font-semibold uppercase tracking-wider bg-gray-50/80">
                   <th className="py-3 px-5">App ID</th>
                   <th className="py-3 px-3">Student Name</th>
                   <th className="py-3 px-3">Class & Year</th>
@@ -171,9 +171,9 @@ export default function Admissions() {
                   <th className="py-3 px-5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/50 text-xs">
+              <tbody className="divide-y divide-gray-100 text-xs">
                 {admissions.map((app) => (
-                  <tr key={app._id} className="hover:bg-slate-900/20 transition-all">
+                  <tr key={app._id} className="hover:bg-gray-50 transition-all">
                     {/* App number */}
                     <td className="py-3.5 px-5 font-mono font-bold text-brand-400">
                       {app.applicationNumber}
@@ -182,7 +182,7 @@ export default function Admissions() {
                     {/* Student Name */}
                     <td className="py-3.5 px-3">
                       <div className="space-y-0.5">
-                        <Link to={`/leads/${app.lead?._id}`} className="font-bold text-slate-200 hover:text-brand-400">
+                        <Link to={`/leads/${app.lead?._id}`} className="font-bold text-slate-700 hover:text-brand-400">
                           {app.studentName}
                         </Link>
                         <p className="text-[10px] text-slate-500">Parent: {app.parentName}</p>
@@ -192,7 +192,7 @@ export default function Admissions() {
                     {/* Class & session */}
                     <td className="py-3.5 px-3">
                       <div className="space-y-0.5">
-                        <span className="text-slate-300 font-medium">{app.classInterested}</span>
+                        <span className="text-slate-600 font-medium">{app.classInterested}</span>
                         <p className="text-[9px] text-slate-500">{app.academicYear}</p>
                       </div>
                     </td>
@@ -231,7 +231,7 @@ export default function Admissions() {
                               target="_blank"
                               rel="noreferrer"
                               title={doc.name}
-                              className="px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-400 hover:text-white text-[9px] font-medium"
+                              className="px-1.5 py-0.5 rounded bg-gray-50 border border-gray-200 text-slate-500 hover:text-slate-800 text-[9px] font-medium"
                             >
                               {doc.name.charAt(0).toUpperCase() + doc.name.slice(1, 4)}..
                             </a>
@@ -250,7 +250,7 @@ export default function Admissions() {
                       <select
                         value={app.status}
                         onChange={(e) => handleUpdateStatus(app._id, e.target.value)}
-                        className={`text-[10px] font-semibold py-1 px-2 rounded-full border bg-slate-900 border-slate-800 text-slate-300 cursor-pointer focus:outline-none`}
+                        className={`text-[10px] font-semibold py-1 px-2 rounded-full border bg-white border-gray-200 text-slate-300 cursor-pointer focus:outline-none`}
                       >
                         <option>Application Started</option>
                         <option>Application Submitted</option>
@@ -267,7 +267,7 @@ export default function Admissions() {
                       <button
                         onClick={() => { setSelectedApp(app); setShowDocModal(true); }}
                         title="Upload Document Metadata"
-                        className="p-1.5 border border-slate-850 hover:border-slate-700 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white rounded-lg transition-all cursor-pointer inline-flex items-center gap-1 text-[10px] font-semibold"
+                        className="p-1.5 border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50 text-slate-500 hover:text-slate-800 rounded-lg transition-all cursor-pointer inline-flex items-center gap-1 text-[10px] font-semibold"
                       >
                         <Upload className="w-3.5 h-3.5" />
                         <span>Add File</span>
@@ -283,17 +283,17 @@ export default function Admissions() {
 
       {/* Document Upload Modal */}
       {showDocModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4">
-          <div className="glass-card bg-slate-900 w-full max-w-md border border-slate-800 p-6 animate-fade-in relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+          <div className="glass-card bg-white w-full max-w-md border border-gray-200 p-6 animate-fade-in relative">
             <button
               onClick={() => { setShowDocModal(false); setSelectedApp(null); }}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white cursor-pointer"
+              className="absolute top-4 right-4 text-slate-500 hover:text-slate-800 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
-            <h3 className="text-lg font-bold text-slate-200 mb-2">Upload Document Metadata</h3>
+            <h3 className="text-lg font-bold text-slate-700 mb-2">Upload Document Metadata</h3>
             <p className="text-xs text-slate-450 mb-4">
-              Add verification record for <span className="font-bold text-slate-200">{selectedApp?.studentName}</span>
+              Add verification record for <span className="font-bold text-slate-700">{selectedApp?.studentName}</span>
             </p>
             <form onSubmit={handleUploadDoc} className="space-y-4">
               <div className="space-y-1">
@@ -324,7 +324,7 @@ export default function Admissions() {
                 />
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
                 <button
                   type="button"
                   onClick={() => { setShowDocModal(false); setSelectedApp(null); }}

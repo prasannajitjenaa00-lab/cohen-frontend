@@ -187,18 +187,18 @@ export default function LeadDetail() {
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Detail header */}
-      <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
+      <div className="flex items-center justify-between border-b border-gray-200 pb-4">
         <div className="flex items-center gap-3">
           <Link
             to="/leads"
-            className="p-1.5 border border-slate-800 bg-slate-900 rounded-lg text-slate-400 hover:text-white transition-all"
+            className="p-1.5 border border-gray-200 bg-white rounded-lg text-slate-500 hover:text-slate-800 transition-all"
           >
             <ArrowLeft className="w-4.5 h-4.5" />
           </Link>
           <div>
             <div className="flex items-center gap-2">
-              <h2 className="text-lg font-bold text-slate-100">{lead.studentName}</h2>
-              <span className="text-[10px] font-bold bg-slate-850 px-1.5 py-0.5 rounded text-slate-400 font-mono">
+              <h2 className="text-lg font-bold text-slate-800">{lead.studentName}</h2>
+              <span className="text-[10px] font-bold bg-gray-100 px-1.5 py-0.5 rounded text-slate-500 font-mono">
                 {lead.leadId}
               </span>
             </div>
@@ -243,7 +243,7 @@ export default function LeadDetail() {
                     ? 'border-brand-500 bg-brand-550 text-white'
                     : isCompleted
                     ? 'border-indigo-500 bg-indigo-500/20 text-indigo-400'
-                    : 'border-slate-800 bg-slate-950/40 text-slate-500'
+                    : 'border-gray-300 bg-gray-100 text-slate-500'
                 }`}>
                   {index + 1}
                 </div>
@@ -261,18 +261,18 @@ export default function LeadDetail() {
         <div className="space-y-6">
           {/* Student Profile Card */}
           <div className="glass-card p-5 space-y-4">
-            <h3 className="text-xs font-bold text-slate-200 border-b border-slate-800 pb-2 uppercase tracking-wider">
+            <h3 className="text-xs font-bold text-slate-700 border-b border-gray-200 pb-2 uppercase tracking-wider">
               Student Info
             </h3>
             
             <div className="space-y-3.5 text-xs">
               <div className="flex justify-between">
                 <span className="text-slate-500">Student Name</span>
-                <span className="text-slate-300 font-medium">{lead.studentName}</span>
+                <span className="text-slate-600 font-medium">{lead.studentName}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Parent Name</span>
-                <span className="text-slate-300 font-medium">{lead.parentName}</span>
+                <span className="text-slate-600 font-medium">{lead.parentName}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Priority Level</span>
@@ -282,19 +282,19 @@ export default function LeadDetail() {
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Origin Channel</span>
-                <span className="text-slate-300 font-medium">{lead.leadSource}</span>
+                <span className="text-slate-600 font-medium">{lead.leadSource}</span>
               </div>
               {lead.campaign && (
                 <div className="flex justify-between">
                   <span className="text-slate-500">Campaign</span>
-                  <span className="text-slate-300 font-medium truncate max-w-[120px]" title={lead.campaign}>
+                  <span className="text-slate-600 font-medium truncate max-w-[120px]" title={lead.campaign}>
                     {lead.campaign}
                   </span>
                 </div>
               )}
               <div className="flex justify-between">
                 <span className="text-slate-500">Assigned Advisor</span>
-                <span className="text-slate-300 font-medium">
+                <span className="text-slate-600 font-medium">
                   {lead.assignedCounsellor ? lead.assignedCounsellor.name : 'Unassigned'}
                 </span>
               </div>
@@ -303,50 +303,50 @@ export default function LeadDetail() {
 
           {/* Contact Details Card */}
           <div className="glass-card p-5 space-y-4">
-            <h3 className="text-xs font-bold text-slate-200 border-b border-slate-800 pb-2 uppercase tracking-wider">
+            <h3 className="text-xs font-bold text-slate-700 border-b border-gray-200 pb-2 uppercase tracking-wider">
               Contact Details
             </h3>
 
             <div className="space-y-3.5 text-xs">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-slate-900 border border-slate-800 rounded-lg text-slate-400">
+                <div className="p-2 bg-gray-50 border border-gray-200 rounded-lg text-slate-500">
                   <Phone className="w-4 h-4" />
                 </div>
                 <div>
                   <p className="text-[10px] text-slate-500">Primary Phone</p>
-                  <p className="text-slate-200 font-medium font-mono">{lead.phone}</p>
+                  <p className="text-slate-700 font-medium font-mono">{lead.phone}</p>
                 </div>
               </div>
 
               {lead.alternatePhone && (
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-slate-900 border border-slate-800 rounded-lg text-slate-400">
+                  <div className="p-2 bg-gray-50 border border-gray-200 rounded-lg text-slate-500">
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
                     <p className="text-[10px] text-slate-500">Alternate Phone</p>
-                    <p className="text-slate-200 font-medium font-mono">{lead.alternatePhone}</p>
+                    <p className="text-slate-700 font-medium font-mono">{lead.alternatePhone}</p>
                   </div>
                 </div>
               )}
 
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-slate-900 border border-slate-800 rounded-lg text-slate-400">
+                <div className="p-2 bg-gray-50 border border-gray-200 rounded-lg text-slate-500">
                   <Mail className="w-4 h-4" />
                 </div>
                 <div className="min-w-0">
                   <p className="text-[10px] text-slate-500">Email Address</p>
-                  <p className="text-slate-200 font-medium truncate" title={lead.email}>{lead.email || 'No email registered'}</p>
+                  <p className="text-slate-700 font-medium truncate" title={lead.email}>{lead.email || 'No email registered'}</p>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-slate-900 border border-slate-800 rounded-lg text-slate-400">
+                <div className="p-2 bg-gray-50 border border-gray-200 rounded-lg text-slate-500">
                   <MapPin className="w-4 h-4" />
                 </div>
                 <div>
                   <p className="text-[10px] text-slate-500">Location Address</p>
-                  <p className="text-slate-200 font-medium">
+                  <p className="text-slate-700 font-medium">
                     {lead.address ? `${lead.address}, ${lead.city}, ${lead.state}` : 'No address registered'}
                   </p>
                 </div>
@@ -361,11 +361,11 @@ export default function LeadDetail() {
           {/* Action Engagement Logger tabs */}
           <div className="glass-card overflow-hidden">
             {/* Tab selector */}
-            <div className="flex border-b border-slate-800/80 bg-slate-950/20">
+            <div className="flex border-b border-slate-800/80 bg-gray-50/50">
               <button
                 onClick={() => setActiveTab('notes')}
                 className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
-                  activeTab === 'notes' ? 'text-brand-400 border-b-2 border-brand-500 bg-slate-900/30' : 'text-slate-500 hover:text-slate-350'
+                  activeTab === 'notes' ? 'text-brand-400 border-b-2 border-brand-500 bg-gray-50' : 'text-slate-500 hover:text-slate-350'
                 }`}
               >
                 <ClipboardList className="w-4 h-4" />
@@ -374,7 +374,7 @@ export default function LeadDetail() {
               <button
                 onClick={() => setActiveTab('calls')}
                 className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
-                  activeTab === 'calls' ? 'text-brand-400 border-b-2 border-brand-500 bg-slate-900/30' : 'text-slate-500 hover:text-slate-350'
+                  activeTab === 'calls' ? 'text-brand-400 border-b-2 border-brand-500 bg-gray-50' : 'text-slate-500 hover:text-slate-350'
                 }`}
               >
                 <PhoneCall className="w-4 h-4" />
@@ -383,7 +383,7 @@ export default function LeadDetail() {
               <button
                 onClick={() => setActiveTab('followups')}
                 className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
-                  activeTab === 'followups' ? 'text-brand-400 border-b-2 border-brand-500 bg-slate-900/30' : 'text-slate-500 hover:text-slate-350'
+                  activeTab === 'followups' ? 'text-brand-400 border-b-2 border-brand-500 bg-gray-50' : 'text-slate-500 hover:text-slate-350'
                 }`}
               >
                 <Clock className="w-4 h-4" />
@@ -540,16 +540,16 @@ export default function LeadDetail() {
 
           {/* Activity Logs Timeline */}
           <div className="glass-card p-5 space-y-4">
-            <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider border-b border-slate-800 pb-2">
+            <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider border-b border-gray-200 pb-2">
               Lead Activity Timeline
             </h3>
 
             {timeline.length === 0 ? (
               <div className="text-center py-8 text-xs text-slate-500">No activity logged yet</div>
             ) : (
-              <div className="relative pl-6 space-y-6 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-800">
+              <div className="relative pl-6 space-y-6 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-200">
                 {timeline.map((item, index) => {
-                  let badgeColor = 'bg-slate-800 text-slate-400 border-slate-700';
+                  let badgeColor = 'bg-gray-100 text-slate-500 border-gray-200';
                   
                   if (item.eventType === 'Created') badgeColor = 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20';
                   if (item.eventType === 'Assigned') badgeColor = 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20';
@@ -561,7 +561,7 @@ export default function LeadDetail() {
                   return (
                     <div key={item._id || index} className="relative flex gap-4 text-xs">
                       {/* Timeline dot */}
-                      <span className={`absolute -left-[20px] top-1.5 h-3.5 w-3.5 rounded-full border-2 bg-slate-950 flex items-center justify-center ${
+                      <span className={`absolute -left-[20px] top-1.5 h-3.5 w-3.5 rounded-full border-2 bg-white flex items-center justify-center ${
                         item.eventType === 'CallLogged' ? 'border-emerald-500' :
                         item.eventType === 'StatusChange' ? 'border-amber-500' :
                         item.eventType === 'NoteAdded' ? 'border-purple-500' :
@@ -579,7 +579,7 @@ export default function LeadDetail() {
                           </span>
                         </div>
                         
-                        <p className="text-slate-300 font-medium">{item.message}</p>
+                        <p className="text-slate-600 font-medium">{item.message}</p>
                         
                         {item.user && (
                           <p className="text-[10px] text-slate-500 flex items-center gap-1">

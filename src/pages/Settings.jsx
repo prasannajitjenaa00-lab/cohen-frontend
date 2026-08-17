@@ -210,7 +210,7 @@ export default function Settings() {
         <div className="space-y-8">
           {/* Section 1: School settings */}
           <div className="glass-card p-6 space-y-4">
-            <h3 className="text-sm font-bold text-slate-205 flex items-center gap-2 border-b border-slate-800 pb-2">
+            <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2 border-b border-gray-200 pb-2">
               <SettingsIcon className="w-4.5 h-4.5 text-brand-400" />
               <span>School Identity & Routing</span>
             </h3>
@@ -275,14 +275,14 @@ export default function Settings() {
 
           {/* Section 2: Website Ingestion */}
           <div className="glass-card p-6 space-y-4">
-            <h3 className="text-sm font-bold text-slate-205 flex items-center gap-2 border-b border-slate-800 pb-2">
+            <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2 border-b border-gray-200 pb-2">
               <Link2 className="w-4.5 h-4.5 text-indigo-400" />
               <span>Public Website Ingestion</span>
             </h3>
             
             <p className="text-xs text-slate-400">
               Integrate public website registration forms securely. Submit HTTP POST requests to:
-              <code className="block mt-2 bg-slate-950 p-2 rounded text-[10px] font-mono text-slate-300 border border-slate-900 truncate">
+              <code className="block mt-2 bg-gray-100 p-2 rounded text-[10px] font-mono text-slate-600 border border-gray-200 truncate">
                 POST {config.apiServerUrl || window.location.origin}/api/webhooks/website
               </code>
             </p>
@@ -294,12 +294,12 @@ export default function Settings() {
                   type="text"
                   readOnly
                   value={apiKey || 'Generate API Key First...'}
-                  className="flex-1 glass-input bg-slate-950 text-slate-400 font-mono text-[10px]"
+                  className="flex-1 glass-input bg-gray-50 text-slate-500 font-mono text-[10px]"
                 />
                 <button
                   onClick={() => copyToClipboard(apiKey)}
                   disabled={!apiKey}
-                  className="p-2 border border-slate-800 bg-slate-900 rounded-lg text-slate-400 hover:text-white cursor-pointer"
+                  className="p-2 border border-gray-200 bg-white rounded-lg text-slate-500 hover:text-slate-800 cursor-pointer"
                 >
                   {apiKeyCopied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
                 </button>
@@ -320,7 +320,7 @@ export default function Settings() {
         <div className="space-y-8">
           {/* Section 4: Webhook Simulator */}
           <div className="glass-card p-6 space-y-4">
-            <h3 className="text-sm font-bold text-slate-205 flex items-center gap-2 border-b border-slate-800 pb-2">
+            <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2 border-b border-gray-200 pb-2">
               <Play className="w-4 h-4 text-emerald-400" />
               <span>Facebook Webhook Simulator</span>
             </h3>
@@ -426,15 +426,15 @@ export default function Settings() {
 
           {/* Section 5: Webhook logs */}
           <div className="glass-card p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-              <h3 className="text-sm font-bold text-slate-205 flex items-center gap-2">
+            <div className="flex items-center justify-between border-b border-gray-200 pb-2">
+              <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2">
                 <RotateCcw className="w-4.5 h-4.5 text-indigo-400" />
                 <span>Meta Webhook Logs</span>
               </h3>
               <button
                 onClick={fetchWebhookLogs}
                 disabled={logsLoading}
-                className="p-1 text-slate-450 hover:text-white rounded transition-all cursor-pointer"
+                className="p-1 text-slate-500 hover:text-slate-800 rounded transition-all cursor-pointer"
               >
                 <RefreshCw className={`w-4 h-4 ${logsLoading ? 'animate-spin' : ''}`} />
               </button>
@@ -445,10 +445,10 @@ export default function Settings() {
                 <div className="text-center py-8 text-xs text-slate-550">No webhook logs recorded</div>
               ) : (
                 webhookLogs.map((log) => (
-                  <div key={log._id} className="p-3 rounded-lg bg-slate-950/40 border border-slate-900 text-[10px] space-y-2">
+                  <div key={log._id} className="p-3 rounded-lg bg-gray-50 border border-gray-200 text-[10px] space-y-2">
                     <div className="flex justify-between items-start">
                       <div>
-                        <span className="font-bold text-slate-200 font-mono">ID: {log.leadId}</span>
+                        <span className="font-bold text-slate-700 font-mono">ID: {log.leadId}</span>
                         <p className="text-slate-500">Received: {new Date(log.createdAt).toLocaleString()}</p>
                       </div>
                       <span className={`status-pill ${

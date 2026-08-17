@@ -169,11 +169,11 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex flex-col w-64 border-r border-slate-800/80 bg-slate-950 transition-transform duration-300 lg:translate-x-0 lg:static lg:h-screen ${mobileOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed inset-y-0 left-0 z-50 flex flex-col w-64 border-r border-blue-800/40 bg-gradient-to-b from-blue-950 via-blue-900 to-indigo-950 transition-transform duration-300 lg:translate-x-0 lg:static lg:h-screen ${mobileOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
       >
         {/* Brand Header */}
-        <div className="flex items-center justify-between h-16 px-6 border-b border-slate-800/80">
+        <div className="flex items-center justify-between h-16 px-6 border-b border-blue-800/40">
           <Link to="/dashboard" className="flex items-center gap-2">
             <span className="text-2xl">🎓</span>
             <span className="text-lg font-bold bg-gradient-to-r from-white via-slate-100 to-brand-400 bg-clip-text text-transparent font-sans">
@@ -191,7 +191,7 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
         </nav>
 
         {/* User Footer Profile */}
-        <div className="p-4 border-t border-slate-800/80 bg-slate-950/50">
+        <div className="p-4 border-t border-blue-800/40 bg-blue-950/50">
           <div className="flex items-center gap-3 mb-4">
             <div className="flex items-center justify-center w-9 h-9 rounded-full bg-brand-500/10 text-brand-400 font-bold border border-brand-500/20">
               {user?.name?.charAt(0).toUpperCase()}

@@ -47,7 +47,7 @@ const DashboardLayout = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-950 text-slate-100 font-sans">
+    <div className="flex h-screen overflow-hidden bg-white text-slate-800 font-sans">
       {/* Sidebar Navigation */}
       <Sidebar mobileOpen={mobileSidebarOpen} setMobileOpen={setMobileSidebarOpen} />
 
@@ -57,7 +57,7 @@ const DashboardLayout = () => {
         <Topbar setMobileOpen={setMobileSidebarOpen} />
 
         {/* Dynamic Page Views */}
-        <main className="flex-1 overflow-y-auto p-6 bg-slate-900/60">
+        <main className="flex-1 overflow-y-auto p-6 bg-gray-50">
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/leads" element={<Leads />} />

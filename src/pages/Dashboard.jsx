@@ -94,15 +94,15 @@ export default function Dashboard() {
       {/* Filters Area */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-100">Welcome Back</h2>
-          <p className="text-xs text-slate-400">Here is the school admissions and leads summary.</p>
+          <h2 className="text-xl font-bold text-slate-800">Welcome Back</h2>
+          <p className="text-xs text-slate-500">Here is the school admissions and leads summary.</p>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold text-slate-400">View Data:</span>
           <select
             value={range}
             onChange={(e) => setRange(e.target.value)}
-            className="text-xs glass-input bg-slate-900 border-slate-800"
+            className="text-xs glass-input bg-white border-gray-200"
           >
             <option>Today</option>
             <option>Yesterday</option>
@@ -118,8 +118,8 @@ export default function Dashboard() {
         {/* Total Leads */}
         <div className="glass-card p-5 flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Enquiries</p>
-            <h3 className="text-3xl font-extrabold font-sans text-slate-100">{stats?.totalLeads}</h3>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Enquiries</p>
+            <h3 className="text-3xl font-extrabold font-sans text-slate-800">{stats?.totalLeads}</h3>
             <p className="text-[10px] text-brand-400 font-medium">All recorded leads</p>
           </div>
           <div className="p-3 bg-brand-500/10 text-brand-400 rounded-xl border border-brand-500/20">
@@ -130,8 +130,8 @@ export default function Dashboard() {
         {/* New Leads */}
         <div className="glass-card p-5 flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">New Leads</p>
-            <h3 className="text-3xl font-extrabold font-sans text-slate-100">{stats?.newLeads}</h3>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">New Leads</p>
+            <h3 className="text-3xl font-extrabold font-sans text-slate-800">{stats?.newLeads}</h3>
             <p className="text-[10px] text-cyan-400 font-medium">{stats?.leadsToday} received today</p>
           </div>
           <div className="p-3 bg-cyan-500/10 text-cyan-400 rounded-xl border border-cyan-500/20">
@@ -142,8 +142,8 @@ export default function Dashboard() {
         {/* Admissions */}
         <div className="glass-card p-5 flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Admissions</p>
-            <h3 className="text-3xl font-extrabold font-sans text-slate-100">{stats?.confirmedAdmissions}</h3>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Admissions</p>
+            <h3 className="text-3xl font-extrabold font-sans text-slate-800">{stats?.confirmedAdmissions}</h3>
             <p className="text-[10px] text-emerald-400 font-medium">{stats?.applications} applications started</p>
           </div>
           <div className="p-3 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20">
@@ -154,8 +154,8 @@ export default function Dashboard() {
         {/* Conversion Rate */}
         <div className="glass-card p-5 flex items-center justify-between">
           <div className="space-y-1">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Conversion</p>
-            <h3 className="text-3xl font-extrabold font-sans text-slate-100">{stats?.conversionRate}%</h3>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Conversion</p>
+            <h3 className="text-3xl font-extrabold font-sans text-slate-800">{stats?.conversionRate}%</h3>
             <p className="text-[10px] text-indigo-400 font-medium">Admission / Total Leads</p>
           </div>
           <div className="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl border border-indigo-500/20">
@@ -169,7 +169,7 @@ export default function Dashboard() {
         {/* Leads by Day Area Chart */}
         <div className="glass-card p-5 lg:col-span-2 space-y-4">
           <div className="flex justify-between items-center">
-            <h4 className="text-sm font-bold text-slate-200">Enquiries Over Time</h4>
+            <h4 className="text-sm font-bold text-slate-700">Enquiries Over Time</h4>
             <span className="text-[10px] text-slate-500 font-medium">Daily submission trend</span>
           </div>
           <div className="h-64 w-full">
@@ -182,10 +182,10 @@ export default function Dashboard() {
                       <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis dataKey="date" stroke="#64748b" fontSize={10} />
                   <YAxis stroke="#64748b" fontSize={10} allowDecimals={false} />
-                  <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', color: '#f8fafc', borderRadius: '8px', fontSize: '12px' }} />
+                  <Tooltip contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0', color: '#1e293b', borderRadius: '8px', fontSize: '12px' }} />
                   <Area type="monotone" dataKey="leads" stroke="#8b5cf6" strokeWidth={2} fillOpacity={1} fill="url(#colorLeads)" />
                 </AreaChart>
               </ResponsiveContainer>
@@ -197,7 +197,7 @@ export default function Dashboard() {
 
         {/* Leads by Source Pie Chart */}
         <div className="glass-card p-5 space-y-4">
-          <h4 className="text-sm font-bold text-slate-200">Leads by Channel Source</h4>
+          <h4 className="text-sm font-bold text-slate-700">Leads by Channel Source</h4>
           <div className="h-64 w-full flex items-center justify-center">
             {chartData?.leadsBySource && chartData.leadsBySource.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
@@ -215,7 +215,7 @@ export default function Dashboard() {
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px', fontSize: '10px' }} />
+                  <Tooltip contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0', borderRadius: '8px', fontSize: '10px' }} />
                   <Legend verticalAlign="bottom" height={36} iconSize={8} iconType="circle" wrapperStyle={{ fontSize: '10px', color: '#94a3b8' }} />
                 </PieChart>
               </ResponsiveContainer>
@@ -231,7 +231,7 @@ export default function Dashboard() {
         {/* Recent Inquiries Panel */}
         <div className="glass-card p-5 space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-bold text-slate-200">Recent Inquiries</h4>
+            <h4 className="text-sm font-bold text-slate-700">Recent Inquiries</h4>
             <Link to="/leads" className="text-[10px] text-brand-400 hover:text-brand-300 font-semibold flex items-center gap-1">
               View all <ArrowRight className="w-3 h-3" />
             </Link>
@@ -241,14 +241,14 @@ export default function Dashboard() {
               <div className="text-center py-6 text-xs text-slate-500">No inquiries found</div>
             ) : (
               recentLeads.map((lead) => (
-                <div key={lead._id} className="p-3 rounded-lg bg-slate-950/40 border border-slate-800/80 flex items-center justify-between hover:bg-slate-900 transition-colors">
+                <div key={lead._id} className="p-3 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-between hover:bg-gray-100 transition-colors">
                   <div className="space-y-1">
-                    <p className="text-xs font-bold text-slate-200">{lead.studentName}</p>
+                    <p className="text-xs font-bold text-slate-700">{lead.studentName}</p>
                     <p className="text-[10px] text-slate-500">
                       Class {lead.classInterested} • {lead.leadSource}
                     </p>
                   </div>
-                  <Link to={`/leads/${lead._id}`} className="text-xs text-slate-400 hover:text-slate-100">
+                  <Link to={`/leads/${lead._id}`} className="text-xs text-brand-500 hover:text-brand-600 font-medium">
                     Details
                   </Link>
                 </div>
@@ -260,7 +260,7 @@ export default function Dashboard() {
         {/* Today's Follow-ups Checklist Panel */}
         <div className="glass-card p-5 space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-bold text-slate-200">Today's Reminders</h4>
+            <h4 className="text-sm font-bold text-slate-700">Today's Reminders</h4>
             <span className="px-2 py-0.5 text-[9px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-full">
               {todayFollowups.length} Pending
             </span>
@@ -273,10 +273,10 @@ export default function Dashboard() {
               </div>
             ) : (
               todayFollowups.map((f) => (
-                <div key={f._id} className="p-3 rounded-lg bg-slate-950/40 border border-slate-800/80 space-y-2.5">
+                <div key={f._id} className="p-3 rounded-lg bg-gray-50 border border-gray-100 space-y-2.5">
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="text-xs font-bold text-slate-200">{f.lead?.studentName}</p>
+                      <p className="text-xs font-bold text-slate-700">{f.lead?.studentName}</p>
                       <p className="text-[10px] text-slate-500">Time: {f.time} • Type: {f.type}</p>
                     </div>
                     <button
@@ -295,15 +295,15 @@ export default function Dashboard() {
 
         {/* Leads by Status distribution */}
         <div className="glass-card p-5 space-y-4">
-          <h4 className="text-sm font-bold text-slate-200">Leads by Status Stage</h4>
+          <h4 className="text-sm font-bold text-slate-700">Leads by Status Stage</h4>
           <div className="h-64 w-full">
             {chartData?.leadsByStatus && chartData.leadsByStatus.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData.leadsByStatus} layout="vertical" margin={{ top: 5, right: 5, left: 10, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis type="number" stroke="#64748b" fontSize={9} allowDecimals={false} />
                   <YAxis type="category" dataKey="name" stroke="#64748b" fontSize={9} width={80} />
-                  <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '8px', fontSize: '10px' }} />
+                  <Tooltip contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0', borderRadius: '8px', fontSize: '10px' }} />
                   <Bar dataKey="value" fill="#6366f1" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -319,11 +319,11 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Counsellor performance */}
           <div className="glass-card p-5 space-y-4">
-            <h4 className="text-sm font-bold text-slate-200 font-sans">Counsellor Lead Distributions</h4>
+            <h4 className="text-sm font-bold text-slate-700 font-sans">Counsellor Lead Distributions</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-800 text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+                  <tr className="border-b border-gray-200 text-[10px] text-slate-500 font-semibold uppercase tracking-wider">
                     <th className="py-2.5">Counsellor</th>
                     <th className="py-2.5 text-center">Assigned</th>
                     <th className="py-2.5 text-center">Contacted</th>
@@ -331,13 +331,13 @@ export default function Dashboard() {
                     <th className="py-2.5 text-right">Conversion</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60 text-xs">
+                <tbody className="divide-y divide-gray-100 text-xs">
                   {chartData.counsellorPerformance.map((c, i) => (
-                    <tr key={i} className="hover:bg-slate-900/30 transition-colors">
-                      <td className="py-3 font-medium text-slate-300">{c.counsellor}</td>
-                      <td className="py-3 text-center text-slate-400">{c.assigned}</td>
-                      <td className="py-3 text-center text-slate-400">{c.contacted}</td>
-                      <td className="py-3 text-center text-slate-300 font-semibold">{c.admissions}</td>
+                    <tr key={i} className="hover:bg-gray-50 transition-colors">
+                      <td className="py-3 font-medium text-slate-700">{c.counsellor}</td>
+                      <td className="py-3 text-center text-slate-500">{c.assigned}</td>
+                      <td className="py-3 text-center text-slate-500">{c.contacted}</td>
+                      <td className="py-3 text-center text-slate-700 font-semibold">{c.admissions}</td>
                       <td className="py-3 text-right text-brand-400 font-bold">{c.conversionRate}%</td>
                     </tr>
                   ))}
@@ -348,11 +348,11 @@ export default function Dashboard() {
 
           {/* Campaign Performance */}
           <div className="glass-card p-5 space-y-4">
-            <h4 className="text-sm font-bold text-slate-200 font-sans">Ad Campaigns Conversions</h4>
+            <h4 className="text-sm font-bold text-slate-700 font-sans">Ad Campaigns Conversions</h4>
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-800 text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+                  <tr className="border-b border-gray-200 text-[10px] text-slate-500 font-semibold uppercase tracking-wider">
                     <th className="py-2.5">Campaign Name</th>
                     <th className="py-2.5 text-center">Leads</th>
                     <th className="py-2.5 text-center">Qualified</th>
@@ -360,18 +360,18 @@ export default function Dashboard() {
                     <th className="py-2.5 text-right">Conv. Rate</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60 text-xs">
+                <tbody className="divide-y divide-gray-100 text-xs">
                   {chartData.campaignPerformance.length === 0 ? (
                     <tr>
                       <td colSpan={5} className="text-center py-6 text-slate-500">No active campaign leads found</td>
                     </tr>
                   ) : (
                     chartData.campaignPerformance.map((c, i) => (
-                      <tr key={i} className="hover:bg-slate-900/30 transition-colors">
-                        <td className="py-3 font-medium text-slate-300 truncate max-w-[150px]" title={c.campaign}>{c.campaign}</td>
-                        <td className="py-3 text-center text-slate-400">{c.leads}</td>
-                        <td className="py-3 text-center text-slate-400">{c.qualified}</td>
-                        <td className="py-3 text-center text-slate-300 font-semibold">{c.admissions}</td>
+                      <tr key={i} className="hover:bg-gray-50 transition-colors">
+                        <td className="py-3 font-medium text-slate-700 truncate max-w-[150px]" title={c.campaign}>{c.campaign}</td>
+                        <td className="py-3 text-center text-slate-500">{c.leads}</td>
+                        <td className="py-3 text-center text-slate-500">{c.qualified}</td>
+                        <td className="py-3 text-center text-slate-700 font-semibold">{c.admissions}</td>
                         <td className="py-3 text-right text-indigo-400 font-bold">{c.conversionRate}%</td>
                       </tr>
                     ))

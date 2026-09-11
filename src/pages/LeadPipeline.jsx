@@ -6,7 +6,7 @@ import { PipelineColumn } from '../components/leadpipeline/LeadPipelineComponent
 
 export default function LeadPipeline() {
   const { user } = useAuth();
-  const isCounsellorRole = user?.role === 'Counsellor';
+  const isCounsellorRole = ['Counsellor', 'Senior Zonal Manager', 'Admissions Officer'].includes(user?.role);
   const [leads, setLeads] = useState([]);
   const [counsellors, setCounsellors] = useState([]);
   const [selectedCounsellor, setSelectedCounsellor] = useState('');

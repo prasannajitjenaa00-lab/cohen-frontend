@@ -7,7 +7,8 @@ import WelcomeToast from '../components/WelcomeToast';
 
 export default function Dashboard() {
   const { user } = useAuth();
-  const isCounsellor = user?.role === 'Counsellor';
+  const isCounsellor = ['Counsellor', 'Admissions Officer'].includes(user?.role);
+  const isAdmissionsManager = user?.role === 'Admissions Manager';
   const [stats, setStats] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [range, setRange] = useState('Last 30 Days');
@@ -116,8 +117,8 @@ export default function Dashboard() {
         completeFollowUp={completeFollowUp}
       />
 
-      {/* Campaigns and Counsellor grids (Super Admins and Admins only) */}
-      {!isCounsellor && <PerformanceGrids chartData={chartData} />}
+      {/* Campaigns and Counsellor grids (Admin, CGO, Admissions Manager roles) */}
+      {(!isCounsellor || isAdmissionsManager) && <PerformanceGrids chartData={chartData} />}
     </div>
   );
 }

@@ -15,7 +15,7 @@ export default function LeadsHeader({
   setShowAddModal
 }) {
   const { user } = useAuth();
-  const isCounsellor = user?.role === 'Counsellor';
+  const isCounsellor = ['Counsellor', 'Admissions Officer', 'Senior Zonal Manager'].includes(user?.role);
 
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

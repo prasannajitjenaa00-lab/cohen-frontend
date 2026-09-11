@@ -14,6 +14,7 @@ import Admissions from './pages/Admissions';
 import Students from './pages/Students';
 import StaffUsers from './pages/StaffUsers';
 import Settings from './pages/Settings';
+import StaffWorkMonitor from './pages/StaffWorkMonitor';
 import GoogleAdsIntegration from './pages/marketing/GoogleAdsIntegration';
 import { MetaAdsIntegration, CampaignPerformance, LeadSources } from './pages/marketing/MarketingPages';
 
@@ -93,17 +94,22 @@ const DashboardLayout = () => {
         <main className="flex-1 overflow-y-auto p-6 bg-gray-50">
           <Routes>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/staff-work" element={
+              <PrivateRoute roles={['Super Admin', 'Admin', 'CGO', 'Admissions Manager']}>
+                <StaffWorkMonitor />
+              </PrivateRoute>
+            } />
             <Route path="/leads" element={<Leads />} />
             <Route path="/leads/:id" element={<LeadDetail />} />
             <Route path="/pipeline" element={<LeadPipeline />} />
             <Route path="/followups" element={<FollowUps />} />
             <Route path="/admissions" element={
-              <PrivateRoute roles={['Super Admin', 'Admin', 'Admission Staff', 'CGO']}>
+              <PrivateRoute roles={['Super Admin', 'Admin', 'Admission Staff', 'CGO', 'Admissions Officer', 'Admissions Manager']}>
                 <Admissions />
               </PrivateRoute>
             } />
             <Route path="/students" element={
-              <PrivateRoute roles={['Super Admin', 'Admin', 'Admission Staff', 'CGO']}>
+              <PrivateRoute roles={['Super Admin', 'Admin', 'Admission Staff', 'CGO', 'Admissions Manager']}>
                 <Students />
               </PrivateRoute>
             } />

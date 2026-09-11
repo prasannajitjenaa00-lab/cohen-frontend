@@ -15,7 +15,8 @@ import {
   ChevronDown,
   ChevronRight,
   Menu,
-  X
+  X,
+  UserCheck
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -33,16 +34,22 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
       name: 'Dashboard',
       icon: LayoutDashboard,
       path: '/dashboard',
-      roles: ['Super Admin', 'Admin', 'Counsellor', 'Admission Staff', 'CGO', 'Senior Zonal Manager']
+      roles: ['Super Admin', 'Admin', 'Counsellor', 'Admission Staff', 'CGO', 'Senior Zonal Manager', 'Admissions Officer', 'Admissions Manager']
+    },
+    {
+      name: 'Staff Work Monitor',
+      icon: UserCheck,
+      path: '/staff-work',
+      roles: ['Super Admin', 'Admin', 'CGO', 'Admissions Manager']
     },
     {
       name: 'Leads',
       icon: Users2,
       path: '/leads',
-      roles: ['Super Admin', 'Admin', 'Counsellor', 'CGO', 'Senior Zonal Manager'],
+      roles: ['Super Admin', 'Admin', 'Counsellor', 'CGO', 'Senior Zonal Manager', 'Admissions Officer', 'Admissions Manager'],
       submenu: [
-        { name: ['Counsellor', 'Senior Zonal Manager'].includes(user?.role) ? 'My Leads' : 'All Leads', path: '/leads' },
-        { name: ['Counsellor', 'Senior Zonal Manager'].includes(user?.role) ? 'My New Leads' : 'New Leads', path: '/leads?status=New' },
+        { name: ['Counsellor', 'Senior Zonal Manager', 'Admissions Officer'].includes(user?.role) ? 'My Leads' : 'All Leads', path: '/leads' },
+        { name: ['Counsellor', 'Senior Zonal Manager', 'Admissions Officer'].includes(user?.role) ? 'My New Leads' : 'New Leads', path: '/leads?status=New' },
         { name: 'Lead Pipeline', path: '/pipeline' }
       ]
     },
@@ -50,19 +57,19 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
       name: 'Follow-ups',
       icon: Clock,
       path: '/followups',
-      roles: ['Super Admin', 'Admin', 'Counsellor', 'CGO', 'Senior Zonal Manager']
+      roles: ['Super Admin', 'Admin', 'Counsellor', 'CGO', 'Senior Zonal Manager', 'Admissions Officer', 'Admissions Manager']
     },
     {
       name: 'Admissions',
       icon: FileText,
       path: '/admissions',
-      roles: ['Super Admin', 'Admin', 'Admission Staff', 'CGO']
+      roles: ['Super Admin', 'Admin', 'Admission Staff', 'CGO', 'Admissions Officer', 'Admissions Manager']
     },
     {
       name: 'Students',
       icon: GraduationCap,
       path: '/students',
-      roles: ['Super Admin', 'Admin', 'Admission Staff', 'CGO']
+      roles: ['Super Admin', 'Admin', 'Admission Staff', 'CGO', 'Admissions Manager']
     },
     {
       name: 'Marketing',
@@ -80,7 +87,7 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
       name: 'Reports',
       icon: BarChart3,
       path: '/reports',
-      roles: ['Super Admin', 'Admin', 'CGO']
+      roles: ['Super Admin', 'Admin', 'CGO', 'Admissions Manager']
     },
     {
       name: 'Staff Users',

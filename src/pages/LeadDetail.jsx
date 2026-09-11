@@ -67,6 +67,7 @@ export default function LeadDetail() {
       />
 
       <StageTracker
+        user={user}
         pipelineStatuses={pipelineStatuses}
         currentStatusIndex={currentStatusIndex}
         handleStatusChange={handleStatusChange}
@@ -78,6 +79,7 @@ export default function LeadDetail() {
 
         <div className="lg:col-span-2 space-y-6">
           <EngagementLogger
+            user={user}
             activeTab={activeTab}
             setActiveTab={setActiveTab}
             actionLoading={actionLoading}

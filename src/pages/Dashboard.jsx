@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 import { KPICards, DashboardCharts, SubPanels, PerformanceGrids } from '../components/dashboard/DashboardComponents';
 
 export default function Dashboard() {
+  const { user } = useAuth();
+  const isCounsellor = user?.role === 'Counsellor';
   const [stats, setStats] = useState(null);
   const [chartData, setChartData] = useState(null);
   const [range, setRange] = useState('Last 30 Days');
@@ -65,8 +68,12 @@ export default function Dashboard() {
       {/* Filters Area */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-800">Welcome Back</h2>
-          <p className="text-xs text-slate-500">Here is the school admissions and leads summary.</p>
+          <h2 className="text-xl font-bold text-slate-800">Welcome Back{user?.name ? `, ${user.name}` : ''}</h2>
+          <p className="text-xs text-slate-500">
+            {isCounsellor
+              ? 'Here are the leads assigned to you and your activity summary.'
+              : 'Here is the school admissions and leads summary.'}
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold text-slate-400">View Data:</span>
@@ -84,7 +91,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <KPICards stats={stats} />
+      <KPICards stats={stats} isCounsellor={isCounsellor} />
 
       <DashboardCharts chartData={chartData} />
 
@@ -97,7 +104,7 @@ export default function Dashboard() {
       />
 
       {/* Campaigns and Counsellor grids (Super Admins and Admins only) */}
-      <PerformanceGrids chartData={chartData} />
+      {!isCounsellor && <PerformanceGrids chartData={chartData} />}
     </div>
   );
 }

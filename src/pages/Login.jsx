@@ -45,12 +45,11 @@ export default function Login() {
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
 
       <div className="w-full max-w-md z-10 animate-fade-in">
-        <div className="text-center mb-8">
-          <span className="text-5xl inline-block mb-3 drop-shadow-lg">🎓</span>
-          <h2 className="text-3xl font-extrabold font-sans bg-gradient-to-r from-white via-slate-200 to-indigo-200 bg-clip-text text-transparent">
-            Cohen International
-          </h2>
-          <p className="text-sm text-slate-500 mt-2 font-medium">CRM & Lead Conversion Portal</p>
+        <div className="text-center mb-8 flex flex-col items-center">
+          <div className="bg-white p-4 rounded-2xl shadow-2xl border border-white/20 inline-block mb-3 max-w-[320px]">
+            <img src="/logo.png" alt="Cohen International School" className="h-16 w-auto object-contain mx-auto" />
+          </div>
+          <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Admissions & Lead Management Portal</p>
         </div>
 
         <div className="glass-card bg-slate-900/60 p-8 border border-slate-800/80 shadow-2xl relative">

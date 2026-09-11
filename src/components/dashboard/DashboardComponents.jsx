@@ -24,15 +24,19 @@ import {
   Legend
 } from 'recharts';
 
-export function KPICards({ stats }) {
+export function KPICards({ stats, isCounsellor }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {/* Total Leads */}
       <div className="glass-card p-5 flex items-center justify-between">
         <div className="space-y-1">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Enquiries</p>
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            {isCounsellor ? 'My Assigned Leads' : 'Total Enquiries'}
+          </p>
           <h3 className="text-3xl font-extrabold font-sans text-slate-800">{stats?.totalLeads}</h3>
-          <p className="text-[10px] text-brand-400 font-medium">All recorded leads</p>
+          <p className="text-[10px] text-brand-400 font-medium">
+            {isCounsellor ? 'Leads assigned to you' : 'All recorded leads'}
+          </p>
         </div>
         <div className="p-3 bg-brand-500/10 text-brand-400 rounded-xl border border-brand-500/20">
           <Users className="w-6 h-6" />
@@ -42,7 +46,9 @@ export function KPICards({ stats }) {
       {/* New Leads */}
       <div className="glass-card p-5 flex items-center justify-between">
         <div className="space-y-1">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">New Leads</p>
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            {isCounsellor ? 'My New Leads' : 'New Leads'}
+          </p>
           <h3 className="text-3xl font-extrabold font-sans text-slate-800">{stats?.newLeads}</h3>
           <p className="text-[10px] text-cyan-400 font-medium">{stats?.leadsToday} received today</p>
         </div>
@@ -54,7 +60,9 @@ export function KPICards({ stats }) {
       {/* Admissions */}
       <div className="glass-card p-5 flex items-center justify-between">
         <div className="space-y-1">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Admissions</p>
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            {isCounsellor ? 'My Admissions' : 'Admissions'}
+          </p>
           <h3 className="text-3xl font-extrabold font-sans text-slate-800">{stats?.confirmedAdmissions}</h3>
           <p className="text-[10px] text-emerald-400 font-medium">{stats?.applications} applications started</p>
         </div>
@@ -66,9 +74,13 @@ export function KPICards({ stats }) {
       {/* Conversion Rate */}
       <div className="glass-card p-5 flex items-center justify-between">
         <div className="space-y-1">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Conversion</p>
+          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            {isCounsellor ? 'My Conversion' : 'Conversion'}
+          </p>
           <h3 className="text-3xl font-extrabold font-sans text-slate-800">{stats?.conversionRate}%</h3>
-          <p className="text-[10px] text-indigo-400 font-medium">Admission / Total Leads</p>
+          <p className="text-[10px] text-indigo-400 font-medium">
+            {isCounsellor ? 'Your admission rate' : 'Admission / Total Leads'}
+          </p>
         </div>
         <div className="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl border border-indigo-500/20">
           <TrendingUp className="w-6 h-6" />

@@ -95,7 +95,7 @@ export default function Topbar({ setMobileOpen }) {
   const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
-    <header className="flex items-center justify-between h-16 px-6 border-b border-gray-200 bg-white backdrop-blur-xl">
+    <header className="relative z-40 flex items-center justify-between h-16 px-6 border-b border-gray-200 bg-white backdrop-blur-xl shrink-0">
       {/* Left title / mobile trigger */}
       <div className="flex items-center gap-4">
         <button
@@ -126,7 +126,7 @@ export default function Topbar({ setMobileOpen }) {
         )}
 
         {/* Notifications Dropdown */}
-        <div className="relative" ref={dropdownRef}>
+        <div className="relative z-50" ref={dropdownRef}>
           <button
             onClick={() => setShowNotifications(!showNotifications)}
             className="relative p-1.5 rounded-lg border border-gray-200 bg-gray-50 text-slate-500 hover:text-slate-800 hover:bg-gray-100 transition-all cursor-pointer"
@@ -140,7 +140,7 @@ export default function Topbar({ setMobileOpen }) {
           </button>
 
           {showNotifications && (
-            <div className="absolute right-0 mt-2.5 w-80 max-h-96 overflow-y-auto bg-white border border-gray-200 rounded-xl p-2 z-50 animate-fade-in shadow-xl">
+            <div className="absolute right-0 mt-2.5 w-80 max-h-96 overflow-y-auto bg-white border border-gray-200 rounded-xl p-2 z-50 animate-fade-in shadow-2xl">
               <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 mb-2">
                 <span className="text-xs font-bold text-slate-700">Alerts & Notifications</span>
                 {unreadCount > 0 && (

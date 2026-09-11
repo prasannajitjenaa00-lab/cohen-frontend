@@ -17,6 +17,8 @@ export default function useSettings() {
 
   const [apiKey, setApiKey] = useState('');
   const [apiKeyCopied, setApiKeyCopied] = useState(false);
+  const [googleKey, setGoogleKey] = useState('');
+  const [googleKeyCopied, setGoogleKeyCopied] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saveLoading, setSaveLoading] = useState(false);
 
@@ -55,6 +57,7 @@ export default function useSettings() {
           assignmentMethod: settings.assignmentMethod || 'Round Robin'
         });
         setApiKey(settings.websiteApiKey || '');
+        setGoogleKey(settings.googleWebhookKey || '');
       }
 
       if (logsRes.data.success) {
@@ -169,10 +172,30 @@ export default function useSettings() {
     }
   };
 
+  const handleRegenGoogleKey = async () => {
+    if (!window.confirm('Regenerating the Google Webhook Key will require updating the key in Google Ads Lead Form Asset. Continue?')) return;
+    try {
+      const res = await axios.post('/api/google/regenerate-key');
+      if (res.data.success) {
+        setGoogleKey(res.data.googleWebhookKey);
+        alert('New Google Ads Webhook Key Generated');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Error regenerating key');
+    }
+  };
+
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
     setApiKeyCopied(true);
     setTimeout(() => setApiKeyCopied(false), 2000);
+  };
+
+  const copyGoogleKey = (text) => {
+    navigator.clipboard.writeText(text);
+    setGoogleKeyCopied(true);
+    setTimeout(() => setGoogleKeyCopied(false), 2000);
   };
 
   return {
@@ -181,6 +204,8 @@ export default function useSettings() {
     setSchoolSettings,
     apiKey,
     apiKeyCopied,
+    googleKey,
+    googleKeyCopied,
     loading,
     saveLoading,
     simForm,
@@ -191,9 +216,11 @@ export default function useSettings() {
     logsLoading,
     handleSaveSettings,
     handleRegenApiKey,
+    handleRegenGoogleKey,
     handleSimulateWebhook,
     fetchWebhookLogs,
     handleRetryLog,
-    copyToClipboard
+    copyToClipboard,
+    copyGoogleKey
   };
 }

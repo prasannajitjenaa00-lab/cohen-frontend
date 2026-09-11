@@ -13,6 +13,8 @@ import Admissions from './pages/Admissions';
 import Students from './pages/Students';
 import StaffUsers from './pages/StaffUsers';
 import Settings from './pages/Settings';
+import GoogleAdsIntegration from './pages/marketing/GoogleAdsIntegration';
+import { MetaAdsIntegration, CampaignPerformance, LeadSources } from './pages/marketing/MarketingPages';
 
 // Layout Components
 import Sidebar from './components/Sidebar';
@@ -66,6 +68,30 @@ const DashboardLayout = () => {
             <Route path="/followups" element={<FollowUps />} />
             <Route path="/admissions" element={<Admissions />} />
             <Route path="/students" element={<Students />} />
+            
+            {/* Marketing & Ad Integrations */}
+            <Route path="/marketing/google" element={
+              <PrivateRoute roles={['Super Admin', 'Admin']}>
+                <GoogleAdsIntegration />
+              </PrivateRoute>
+            } />
+            <Route path="/marketing/meta" element={
+              <PrivateRoute roles={['Super Admin', 'Admin']}>
+                <MetaAdsIntegration />
+              </PrivateRoute>
+            } />
+            <Route path="/marketing/campaigns" element={
+              <PrivateRoute roles={['Super Admin', 'Admin']}>
+                <CampaignPerformance />
+              </PrivateRoute>
+            } />
+            <Route path="/marketing/sources" element={
+              <PrivateRoute roles={['Super Admin', 'Admin']}>
+                <LeadSources />
+              </PrivateRoute>
+            } />
+            <Route path="/marketing" element={<Navigate to="/marketing/google" replace />} />
+
             <Route path="/users" element={
               <PrivateRoute roles={['Super Admin']}>
                 <StaffUsers />

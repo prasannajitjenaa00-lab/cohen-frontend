@@ -1,6 +1,7 @@
 import React from 'react';
 import { Plus, Download } from 'lucide-react';
 import { handleExportCSV } from '../../utils/csvExport';
+import { useAuth } from '../../context/AuthContext';
 
 export default function LeadsHeader({
   search,
@@ -13,11 +14,20 @@ export default function LeadsHeader({
   endDate,
   setShowAddModal
 }) {
+  const { user } = useAuth();
+  const isCounsellor = user?.role === 'Counsellor';
+
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
-        <h2 className="text-xl font-bold text-slate-800">Leads Directory</h2>
-        <p className="text-xs text-slate-400">Manage, sort, filters, and allocate student admissions enquiries.</p>
+        <h2 className="text-xl font-bold text-slate-800">
+          {isCounsellor ? 'My Assigned Leads' : 'Leads Directory'}
+        </h2>
+        <p className="text-xs text-slate-400">
+          {isCounsellor
+            ? 'Leads assigned to you by the admin. Track and follow up on each enquiry.'
+            : 'Manage, sort, filters, and allocate student admissions enquiries.'}
+        </p>
       </div>
       <div className="flex items-center gap-3">
         <button

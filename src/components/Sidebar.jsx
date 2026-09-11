@@ -41,8 +41,8 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
       path: '/leads',
       roles: ['Super Admin', 'Admin', 'Counsellor'],
       submenu: [
-        { name: 'All Leads', path: '/leads' },
-        { name: 'New Leads', path: '/leads?status=New' },
+        { name: user?.role === 'Counsellor' ? 'My Leads' : 'All Leads', path: '/leads' },
+        { name: user?.role === 'Counsellor' ? 'My New Leads' : 'New Leads', path: '/leads?status=New' },
         { name: 'Lead Pipeline', path: '/pipeline' }
       ]
     },
@@ -70,6 +70,7 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
       path: '/marketing',
       roles: ['Super Admin', 'Admin'],
       submenu: [
+        { name: 'Google Ads Integration', path: '/marketing/google' },
         { name: 'Meta Ads Integration', path: '/marketing/meta' },
         { name: 'Campaign Performance', path: '/marketing/campaigns' },
         { name: 'Lead Sources', path: '/marketing/sources' }
@@ -173,14 +174,13 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
           }`}
       >
         {/* Brand Header */}
-        <div className="flex items-center justify-between h-16 px-6 border-b border-blue-800/40">
-          <Link to="/dashboard" className="flex items-center gap-2">
-            <span className="text-2xl">🎓</span>
-            <span className="text-lg font-bold bg-gradient-to-r from-white via-slate-100 to-brand-400 bg-clip-text text-transparent font-sans">
-              Cohen CRM
-            </span>
+        <div className="flex items-center justify-between h-20 px-4 border-b border-blue-800/40">
+          <Link to="/dashboard" className="flex items-center flex-1 min-w-0">
+            <div className="bg-white px-3 py-1.5 rounded-xl shadow-md border border-white/30 flex items-center justify-center w-full hover:opacity-95 transition-opacity">
+              <img src="/logo.png" alt="Cohen International School" className="h-11 w-full object-contain" />
+            </div>
           </Link>
-          <button onClick={() => setMobileOpen(false)} className="text-slate-400 hover:text-white lg:hidden">
+          <button onClick={() => setMobileOpen(false)} className="text-slate-400 hover:text-white lg:hidden ml-2">
             <X className="w-5 h-5" />
           </button>
         </div>

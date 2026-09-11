@@ -211,7 +211,14 @@ export function LeadsTable({
               {/* Source */}
               <td className="py-3.5 px-3">
                 <div className="space-y-0.5">
-                  <span className="text-slate-600 font-medium">{lead.leadSource}</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-slate-600 font-medium">{lead.leadSource}</span>
+                    {lead.gclid && (
+                      <span className="text-[8px] font-bold bg-blue-50 text-blue-600 border border-blue-200 px-1 rounded" title="Google Click ID present">
+                        GCLID
+                      </span>
+                    )}
+                  </div>
                   {lead.campaign && (
                     <p className="text-[9px] text-slate-500 truncate max-w-[120px]" title={lead.campaign}>
                       {lead.campaign}

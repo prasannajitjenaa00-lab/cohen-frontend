@@ -1,7 +1,13 @@
 import React from 'react';
 import { Loader2 } from 'lucide-react';
 import useSettings from '../hooks/useSettings';
-import { SchoolIdentity, WebsiteIngestion, WebhookSimulator, WebhookLogs } from '../components/settings/SettingsComponents';
+import {
+  SchoolIdentity,
+  WebsiteIngestion,
+  GoogleAdsIngestion,
+  WebhookSimulator,
+  WebhookLogs
+} from '../components/settings/SettingsComponents';
 
 export default function Settings() {
   const {
@@ -10,6 +16,8 @@ export default function Settings() {
     setSchoolSettings,
     apiKey,
     apiKeyCopied,
+    googleKey,
+    googleKeyCopied,
     loading,
     saveLoading,
     simForm,
@@ -20,10 +28,12 @@ export default function Settings() {
     logsLoading,
     handleSaveSettings,
     handleRegenApiKey,
+    handleRegenGoogleKey,
     handleSimulateWebhook,
     fetchWebhookLogs,
     handleRetryLog,
-    copyToClipboard
+    copyToClipboard,
+    copyGoogleKey
   } = useSettings();
 
   if (loading) {
@@ -43,6 +53,12 @@ export default function Settings() {
             setSchoolSettings={setSchoolSettings}
             handleSaveSettings={handleSaveSettings}
             saveLoading={saveLoading}
+          />
+          <GoogleAdsIngestion
+            googleKey={googleKey}
+            googleKeyCopied={googleKeyCopied}
+            copyGoogleKey={copyGoogleKey}
+            handleRegenGoogleKey={handleRegenGoogleKey}
           />
           <WebsiteIngestion
             apiKey={apiKey}

@@ -132,6 +132,64 @@ export function WebsiteIngestion({
   );
 }
 
+export function GoogleAdsIngestion({
+  googleKey,
+  googleKeyCopied,
+  copyGoogleKey,
+  handleRegenGoogleKey
+}) {
+  const webhookUrl = `${config.apiServerUrl || window.location.origin}/api/webhooks/google`;
+
+  return (
+    <div className="glass-card p-6 space-y-4">
+      <div className="flex items-center justify-between border-b border-gray-200 pb-2">
+        <h3 className="text-sm font-bold text-slate-700 flex items-center gap-2">
+          <Link2 className="w-4.5 h-4.5 text-blue-500" />
+          <span>Google Ads Lead Delivery Webhook</span>
+        </h3>
+        <a
+          href="/marketing/google"
+          className="text-[11px] font-bold text-brand-600 hover:text-brand-700"
+        >
+          Open Google Hub →
+        </a>
+      </div>
+
+      <p className="text-xs text-slate-400">
+        Deliver leads directly from Google Ads Lead Form extension:
+        <code className="block mt-2 bg-gray-100 p-2 rounded text-[10px] font-mono text-slate-600 border border-gray-200 truncate">
+          POST {webhookUrl}
+        </code>
+      </p>
+
+      <div className="space-y-2 text-xs">
+        <label className="text-slate-400 font-semibold">Google Webhook Key (`google_key`)</label>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            readOnly
+            value={googleKey || 'Generating Key...'}
+            className="flex-1 glass-input bg-gray-50 text-slate-500 font-mono text-[10px]"
+          />
+          <button
+            onClick={() => copyGoogleKey(googleKey)}
+            disabled={!googleKey}
+            className="p-2 border border-gray-200 bg-white rounded-lg text-slate-500 hover:text-slate-800 cursor-pointer"
+          >
+            {googleKeyCopied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+          </button>
+          <button
+            onClick={handleRegenGoogleKey}
+            className="glass-btn-secondary px-3 py-1.5 font-semibold text-xs text-rose-600 hover:text-rose-700"
+          >
+            Regenerate
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function WebhookSimulator({
   simForm,
   setSimForm,

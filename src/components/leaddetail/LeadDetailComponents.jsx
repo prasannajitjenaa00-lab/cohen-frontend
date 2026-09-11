@@ -1,152 +1,218 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-  User,
-  Loader2,
-  PhoneCall,
-  ClipboardList
+  Phone, Mail, MapPin, Clock, User, Loader2, PhoneCall,
+  ClipboardList, Eye, CheckCircle2, AlertCircle, Calendar,
+  MessageSquare, ArrowUpRight, Filter, Hash, Briefcase, Zap
 } from 'lucide-react';
 
-export function StageTracker({
-  pipelineStatuses,
-  currentStatusIndex,
-  handleStatusChange
-}) {
-  return (
-    <div className="glass-card p-5">
-      <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Admissions Stage Tracker</h4>
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-2.5 overflow-x-auto pb-2">
-        {pipelineStatuses.map((status, index) => {
-          const isCompleted = index < currentStatusIndex;
-          const isActive = index === currentStatusIndex;
+/* ─── Stage Tracker (Redesigned Horizontal Stepper) ─── */
+export function StageTracker({ user, pipelineStatuses, currentStatusIndex, handleStatusChange }) {
+  const isCounsellor = user?.role === 'Counsellor';
 
-          return (
-            <button
-              key={status}
-              onClick={() => handleStatusChange(status)}
-              className={`flex items-center gap-2 text-left md:text-center md:flex-col md:flex-1 p-2 rounded-lg transition-all cursor-pointer ${
-                isActive
-                  ? 'bg-brand-500/10 border border-brand-500/20 text-brand-400'
-                  : isCompleted
-                  ? 'text-slate-300'
-                  : 'text-slate-600 hover:text-slate-400'
-              }`}
-            >
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold border transition-colors ${
-                isActive
-                  ? 'border-brand-500 bg-brand-550 text-white'
-                  : isCompleted
-                  ? 'border-indigo-500 bg-indigo-500/20 text-indigo-400'
-                  : 'border-gray-300 bg-gray-100 text-slate-500'
-              }`}>
-                {index + 1}
-              </div>
-              <span className="text-[10px] font-semibold tracking-wide whitespace-nowrap">{status}</span>
-            </button>
-          );
-        })}
+  return (
+    <div className="glass-card p-5 overflow-hidden">
+      <div className="flex items-center justify-between mb-4">
+        <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+          <Zap className="w-3.5 h-3.5 text-brand-400" />
+          Admissions Pipeline
+          {!isCounsellor && (
+            <span className="text-[9px] font-normal text-slate-400 normal-case bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
+              Read-Only (Only Counselor can update)
+            </span>
+          )}
+        </h4>
+        <span className="text-[10px] font-bold text-brand-500 bg-brand-50 border border-brand-200/50 px-2.5 py-0.5 rounded-full">
+          Step {currentStatusIndex + 1} of {pipelineStatuses.length}
+        </span>
+      </div>
+
+      {/* Progress bar background */}
+      <div className="relative mb-6">
+        <div className="absolute top-4 left-0 right-0 h-0.5 bg-gray-200 rounded-full" />
+        <div
+          className="absolute top-4 left-0 h-0.5 bg-gradient-to-r from-brand-500 to-indigo-500 rounded-full transition-all duration-700 ease-out"
+          style={{ width: `${(currentStatusIndex / (pipelineStatuses.length - 1)) * 100}%` }}
+        />
+
+        <div className="relative flex justify-between">
+          {pipelineStatuses.map((status, index) => {
+            const isCompleted = index < currentStatusIndex;
+            const isActive = index === currentStatusIndex;
+
+            return (
+              <button
+                key={status}
+                disabled={!isCounsellor}
+                onClick={() => isCounsellor && handleStatusChange(status)}
+                className={`flex flex-col items-center gap-1.5 group ${isCounsellor ? 'cursor-pointer' : 'cursor-default'}`}
+                title={isCounsellor ? `Change status to ${status}` : `${status} (Read-only for Admins)`}
+              >
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold border-2 transition-all duration-300 ${
+                  isActive
+                    ? 'border-brand-500 bg-gradient-to-br from-brand-500 to-indigo-600 text-white shadow-lg shadow-brand-500/30 scale-110'
+                    : isCompleted
+                    ? 'border-indigo-400 bg-indigo-50 text-indigo-500'
+                    : 'border-gray-200 bg-white text-slate-400 group-hover:border-brand-300 group-hover:text-brand-400'
+                }`}>
+                  {isCompleted ? <CheckCircle2 className="w-3.5 h-3.5" /> : index + 1}
+                </div>
+                <span className={`text-[9px] font-semibold tracking-wide whitespace-nowrap max-w-[70px] text-center leading-tight ${
+                  isActive ? 'text-brand-600' : isCompleted ? 'text-indigo-500' : 'text-slate-400'
+                }`}>
+                  {status}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
 }
 
+/* ─── Lead Profile Cards (Redesigned Left Sidebar) ─── */
 export function LeadProfileCards({ lead }) {
   return (
-    <div className="space-y-6">
-      {/* Student Profile Card */}
-      <div className="glass-card p-5 space-y-4">
-        <h3 className="text-xs font-bold text-slate-700 border-b border-gray-200 pb-2 uppercase tracking-wider">
-          Student Info
-        </h3>
-        
-        <div className="space-y-3.5 text-xs">
-          <div className="flex justify-between">
-            <span className="text-slate-500">Student Name</span>
-            <span className="text-slate-600 font-medium">{lead.studentName}</span>
+    <div className="space-y-5">
+      {/* Student Information Card */}
+      <div className="glass-card overflow-hidden">
+        <div className="px-5 py-3 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+          <h3 className="text-[11px] font-bold text-slate-600 uppercase tracking-widest flex items-center gap-2">
+            <User className="w-3.5 h-3.5 text-brand-400" />
+            Student Information
+          </h3>
+        </div>
+        <div className="p-5 space-y-0">
+          {[
+            { label: 'Student Name', value: lead.studentName, icon: '🎓' },
+            { label: 'Parent / Guardian', value: lead.parentName, icon: '👤' },
+            { label: 'Class Interested', value: lead.classInterested, icon: '📚' },
+            { label: 'Academic Year', value: lead.academicYear, icon: '📅' },
+            { label: 'Origin Channel', value: lead.leadSource, icon: '📡' },
+          ].map((item, i) => (
+            <div key={i} className="flex items-center justify-between py-2.5 border-b border-gray-100 last:border-0">
+              <span className="text-[11px] text-slate-500 flex items-center gap-1.5">
+                <span className="text-xs">{item.icon}</span>
+                {item.label}
+              </span>
+              <span className="text-[11px] font-semibold text-slate-700 text-right max-w-[130px] truncate">{item.value}</span>
+            </div>
+          ))}
+
+          {/* Priority */}
+          <div className="flex items-center justify-between py-2.5 border-b border-gray-100">
+            <span className="text-[11px] text-slate-500 flex items-center gap-1.5">
+              <span className="text-xs">⚡</span> Priority
+            </span>
+            <span className={`priority-badge priority-${lead.priority?.toLowerCase()}`}>{lead.priority}</span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-slate-500">Parent Name</span>
-            <span className="text-slate-600 font-medium">{lead.parentName}</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="text-slate-500">Priority Level</span>
-            <span className={`priority-badge priority-${lead.priority.toLowerCase()}`}>
-              {lead.priority}
+
+          {/* Advisor */}
+          <div className="flex items-center justify-between py-2.5">
+            <span className="text-[11px] text-slate-500 flex items-center gap-1.5">
+              <span className="text-xs">🧑‍💼</span> Advisor
+            </span>
+            <span className="text-[11px] font-semibold text-indigo-600">
+              {lead.assignedCounsellor?.name || <span className="text-slate-400 italic">Unassigned</span>}
             </span>
           </div>
-          <div className="flex justify-between">
-            <span className="text-slate-500">Origin Channel</span>
-            <span className="text-slate-600 font-medium">{lead.leadSource}</span>
-          </div>
+
           {lead.campaign && (
-            <div className="flex justify-between">
-              <span className="text-slate-500">Campaign</span>
-              <span className="text-slate-600 font-medium truncate max-w-[120px]" title={lead.campaign}>
+            <div className="flex items-center justify-between py-2.5 border-t border-gray-100">
+              <span className="text-[11px] text-slate-500 flex items-center gap-1.5">
+                <span className="text-xs">📢</span> Campaign
+              </span>
+              <span className="text-[11px] font-semibold text-slate-600 truncate max-w-[120px]" title={lead.campaign}>
                 {lead.campaign}
               </span>
             </div>
           )}
-          <div className="flex justify-between">
-            <span className="text-slate-500">Assigned Advisor</span>
-            <span className="text-slate-600 font-medium">
-              {lead.assignedCounsellor ? lead.assignedCounsellor.name : 'Unassigned'}
-            </span>
-          </div>
         </div>
       </div>
 
-      {/* Contact Details Card */}
-      <div className="glass-card p-5 space-y-4">
-        <h3 className="text-xs font-bold text-slate-700 border-b border-gray-200 pb-2 uppercase tracking-wider">
-          Contact Details
-        </h3>
-
-        <div className="space-y-3.5 text-xs">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-gray-50 border border-gray-200 rounded-lg text-slate-500">
-              <Phone className="w-4 h-4" />
-            </div>
-            <div>
-              <p className="text-[10px] text-slate-500">Primary Phone</p>
-              <p className="text-slate-700 font-medium font-mono">{lead.phone}</p>
-            </div>
+      {/* Google Ads Attribution Card (if applicable) */}
+      {(lead.leadSource === 'Google Ads' || lead.leadSource === 'Google' || lead.gclid || lead.googleLeadId) && (
+        <div className="glass-card overflow-hidden border border-blue-100">
+          <div className="px-5 py-3 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100 flex items-center justify-between">
+            <h3 className="text-[11px] font-bold text-blue-900 uppercase tracking-widest flex items-center gap-1.5">
+              <span>🎯</span> Google Ads Attribution
+            </h3>
+            <span className="text-[9px] font-bold bg-blue-600 text-white px-2 py-0.5 rounded-full">
+              Live Click
+            </span>
           </div>
+          <div className="p-4 space-y-2 text-xs">
+            {lead.gclid && (
+              <div className="space-y-0.5">
+                <span className="text-[10px] text-slate-400 font-bold uppercase">Google Click ID (GCLID)</span>
+                <p className="font-mono text-[10px] text-slate-700 bg-gray-50 p-1.5 rounded border border-gray-200 truncate" title={lead.gclid}>
+                  {lead.gclid}
+                </p>
+              </div>
+            )}
+            {lead.googleLeadId && (
+              <div className="flex justify-between items-center py-1 border-b border-gray-100">
+                <span className="text-[10px] text-slate-500">Google Lead ID:</span>
+                <span className="font-mono text-[10px] font-bold text-slate-700">{lead.googleLeadId}</span>
+              </div>
+            )}
+            {lead.googleFormId && (
+              <div className="flex justify-between items-center py-1 border-b border-gray-100">
+                <span className="text-[10px] text-slate-500">Lead Form ID:</span>
+                <span className="font-mono text-[10px] text-slate-600">{lead.googleFormId}</span>
+              </div>
+            )}
+            {lead.googleCampaignId && (
+              <div className="flex justify-between items-center py-1 border-b border-gray-100">
+                <span className="text-[10px] text-slate-500">Campaign ID:</span>
+                <span className="font-mono text-[10px] text-slate-600">{lead.googleCampaignId}</span>
+              </div>
+            )}
+            {lead.utmMedium && (
+              <div className="flex justify-between items-center py-1">
+                <span className="text-[10px] text-slate-500">UTM Medium:</span>
+                <span className="text-[10px] font-semibold text-slate-600">{lead.utmMedium}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
+      {/* Contact Card */}
+      <div className="glass-card overflow-hidden">
+        <div className="px-5 py-3 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+          <h3 className="text-[11px] font-bold text-slate-600 uppercase tracking-widest flex items-center gap-2">
+            <Phone className="w-3.5 h-3.5 text-emerald-500" />
+            Contact Details
+          </h3>
+        </div>
+        <div className="p-5 space-y-3.5">
+          <ContactRow icon={<Phone className="w-4 h-4" />} label="Primary Phone" value={lead.phone} mono color="emerald" />
           {lead.alternatePhone && (
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-gray-50 border border-gray-200 rounded-lg text-slate-500">
-                <Phone className="w-4 h-4" />
-              </div>
-              <div>
-                <p className="text-[10px] text-slate-500">Alternate Phone</p>
-                <p className="text-slate-700 font-medium font-mono">{lead.alternatePhone}</p>
-              </div>
-            </div>
+            <ContactRow icon={<Phone className="w-4 h-4" />} label="Alternate Phone" value={lead.alternatePhone} mono color="emerald" />
           )}
+          <ContactRow icon={<Mail className="w-4 h-4" />} label="Email Address" value={lead.email || 'Not provided'} color="blue" />
+          <ContactRow
+            icon={<MapPin className="w-4 h-4" />}
+            label="Location"
+            value={lead.address ? `${lead.address}, ${lead.city || ''}, ${lead.state || ''}` : 'Not provided'}
+            color="orange"
+          />
+        </div>
+      </div>
 
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-gray-50 border border-gray-200 rounded-lg text-slate-500">
-              <Mail className="w-4 h-4" />
-            </div>
-            <div className="min-w-0">
-              <p className="text-[10px] text-slate-500">Email Address</p>
-              <p className="text-slate-700 font-medium truncate" title={lead.email}>{lead.email || 'No email registered'}</p>
-            </div>
+      {/* Quick Stats Mini Card */}
+      <div className="glass-card p-4">
+        <div className="grid grid-cols-2 gap-3">
+          <div className="text-center p-3 bg-brand-50/50 rounded-xl border border-brand-100">
+            <p className="text-lg font-extrabold text-brand-600">{lead.status || 'New'}</p>
+            <p className="text-[9px] text-brand-400 font-bold uppercase tracking-wider mt-0.5">Current Stage</p>
           </div>
-
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-gray-50 border border-gray-200 rounded-lg text-slate-500">
-              <MapPin className="w-4 h-4" />
-            </div>
-            <div>
-              <p className="text-[10px] text-slate-500">Location Address</p>
-              <p className="text-slate-700 font-medium">
-                {lead.address ? `${lead.address}, ${lead.city}, ${lead.state}` : 'No address registered'}
-              </p>
-            </div>
+          <div className="text-center p-3 bg-indigo-50/50 rounded-xl border border-indigo-100">
+            <p className="text-lg font-extrabold text-indigo-600">
+              {lead.createdAt ? new Date(lead.createdAt).toLocaleDateString([], { month: 'short', day: '2-digit' }) : '—'}
+            </p>
+            <p className="text-[9px] text-indigo-400 font-bold uppercase tracking-wider mt-0.5">Created On</p>
           </div>
         </div>
       </div>
@@ -154,194 +220,160 @@ export function LeadProfileCards({ lead }) {
   );
 }
 
+function ContactRow({ icon, label, value, mono, color = 'slate' }) {
+  const colorMap = {
+    emerald: 'bg-emerald-50 border-emerald-200/50 text-emerald-500',
+    blue: 'bg-blue-50 border-blue-200/50 text-blue-500',
+    orange: 'bg-orange-50 border-orange-200/50 text-orange-500',
+    slate: 'bg-gray-50 border-gray-200 text-slate-500',
+  };
+
+  return (
+    <div className="flex items-center gap-3 group">
+      <div className={`p-2 rounded-xl border ${colorMap[color]} transition-all`}>
+        {icon}
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="text-[10px] text-slate-400 font-medium">{label}</p>
+        <p className={`text-[12px] text-slate-700 font-semibold truncate ${mono ? 'font-mono' : ''}`}>{value}</p>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Engagement Logger (Redesigned Tab Panel) ─── */
 export function EngagementLogger({
-  activeTab,
-  setActiveTab,
-  actionLoading,
-  handleAddNote,
-  noteContent,
-  setNoteContent,
-  handleLogCall,
-  callForm,
-  setCallForm,
-  handleScheduleFollowUp,
-  followUpForm,
-  setFollowUpForm
+  user, activeTab, setActiveTab, actionLoading,
+  handleAddNote, noteContent, setNoteContent,
+  handleLogCall, callForm, setCallForm,
+  handleScheduleFollowUp, followUpForm, setFollowUpForm
 }) {
+  const isCounsellor = user?.role === 'Counsellor';
+
+  const tabs = [
+    { id: 'notes', label: 'Write Note', icon: MessageSquare, color: 'purple' },
+    { id: 'calls', label: 'Log Call', icon: PhoneCall, color: 'emerald' },
+    { id: 'followups', label: 'Follow-up', icon: Calendar, color: 'blue' },
+  ];
+
+  // Admin read-only view
+  if (!isCounsellor) {
+    return (
+      <div className="glass-card overflow-hidden">
+        <div className="px-5 py-3 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+            <ClipboardList className="w-3.5 h-3.5 text-slate-400" /> Engagement Logger
+          </span>
+        </div>
+        <div className="p-8 text-center space-y-3">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 mb-2">
+            <Eye className="w-6 h-6 text-slate-400" />
+          </div>
+          <p className="text-sm font-bold text-slate-600">View-Only Access</p>
+          <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
+            Only assigned Counsellors can add notes, log calls, and schedule follow-ups. Review activity in the timeline below.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="glass-card overflow-hidden">
-      {/* Tab selector */}
-      <div className="flex border-b border-slate-800/80 bg-gray-50/50">
-        <button
-          onClick={() => setActiveTab('notes')}
-          className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
-            activeTab === 'notes' ? 'text-brand-400 border-b-2 border-brand-500 bg-gray-50' : 'text-slate-500 hover:text-slate-350'
-          }`}
-        >
-          <ClipboardList className="w-4 h-4" />
-          <span>Write Note</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('calls')}
-          className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
-            activeTab === 'calls' ? 'text-brand-400 border-b-2 border-brand-500 bg-gray-50' : 'text-slate-500 hover:text-slate-350'
-          }`}
-        >
-          <PhoneCall className="w-4 h-4" />
-          <span>Log Call</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('followups')}
-          className={`flex-1 py-3 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
-            activeTab === 'followups' ? 'text-brand-400 border-b-2 border-brand-500 bg-gray-50' : 'text-slate-500 hover:text-slate-350'
-          }`}
-        >
-          <Clock className="w-4 h-4" />
-          <span>Schedule Follow-up</span>
-        </button>
+      {/* Tab buttons */}
+      <div className="flex border-b border-gray-100 bg-gradient-to-r from-gray-50/80 to-white">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex-1 py-3.5 text-[11px] font-bold flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer relative ${
+                isActive ? 'text-brand-600' : 'text-slate-400 hover:text-slate-600'
+              }`}
+            >
+              <Icon className="w-4 h-4" />
+              <span>{tab.label}</span>
+              {isActive && (
+                <span className="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-brand-500 to-indigo-500 rounded-full" />
+              )}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Tab Contents */}
       <div className="p-5">
-        {/* Tab 1: Write Note */}
         {activeTab === 'notes' && (
           <form onSubmit={handleAddNote} className="space-y-4">
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-400 uppercase">Internal Comment / Note</label>
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 block">Internal Note</label>
               <textarea
-                rows={3}
-                required
-                placeholder="Enter specific comments from interaction or additional observations..."
-                value={noteContent}
-                onChange={(e) => setNoteContent(e.target.value)}
-                className="w-full glass-input text-xs"
+                rows={3} required placeholder="Enter specific comments from interaction or observations..."
+                value={noteContent} onChange={(e) => setNoteContent(e.target.value)}
+                className="w-full glass-input text-xs resize-none"
               />
             </div>
             <div className="flex justify-end">
-              <button
-                type="submit"
-                disabled={actionLoading}
-                className="glass-btn-primary px-4 py-1.5 text-xs font-semibold flex items-center gap-2"
-              >
-                {actionLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                <span>Save Note</span>
-              </button>
+              <SubmitBtn loading={actionLoading} label="Save Note" icon={<MessageSquare className="w-3.5 h-3.5" />} />
             </div>
           </form>
         )}
 
-        {/* Tab 2: Log Call */}
         {activeTab === 'calls' && (
           <form onSubmit={handleLogCall} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase">Call Outcome</label>
-                <select
-                  value={callForm.outcome}
-                  onChange={(e) => setCallForm({ ...callForm, outcome: e.target.value })}
-                  className="w-full glass-input text-xs"
-                >
-                  <option>Connected</option>
-                  <option>Busy</option>
-                  <option>Switch Off</option>
-                  <option>Not Reachable</option>
-                  <option>RNR (Ring No Response)</option>
-                  <option>Call Back</option>
+              <FormField label="Call Outcome">
+                <select value={callForm.outcome} onChange={(e) => setCallForm({ ...callForm, outcome: e.target.value })} className="w-full glass-input text-xs">
+                  {['Connected', 'Busy', 'Switch Off', 'Not Reachable', 'RNR (Ring No Response)', 'Call Back'].map(o => (
+                    <option key={o}>{o}</option>
+                  ))}
                 </select>
-              </div>
-              <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase">Call Duration (seconds)</label>
-                <input
-                  type="number"
-                  placeholder="e.g. 120"
-                  value={callForm.duration}
+              </FormField>
+              <FormField label="Duration (seconds)">
+                <input type="number" placeholder="e.g. 120" value={callForm.duration}
                   onChange={(e) => setCallForm({ ...callForm, duration: e.target.value })}
-                  className="w-full glass-input text-xs"
-                />
-              </div>
+                  className="w-full glass-input text-xs" />
+              </FormField>
             </div>
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-400 uppercase">Conversation Details</label>
-              <textarea
-                rows={3}
-                required
-                placeholder="Summarize details discussed, parent concerns, fee queries, etc..."
-                value={callForm.summary}
-                onChange={(e) => setCallForm({ ...callForm, summary: e.target.value })}
-                className="w-full glass-input text-xs"
-              />
-            </div>
+            <FormField label="Conversation Summary">
+              <textarea rows={3} required placeholder="Summarize details discussed, parent concerns, fee queries..."
+                value={callForm.summary} onChange={(e) => setCallForm({ ...callForm, summary: e.target.value })}
+                className="w-full glass-input text-xs resize-none" />
+            </FormField>
             <div className="flex justify-end">
-              <button
-                type="submit"
-                disabled={actionLoading}
-                className="glass-btn-primary px-4 py-1.5 text-xs font-semibold flex items-center gap-2"
-              >
-                {actionLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                <span>Log Call Details</span>
-              </button>
+              <SubmitBtn loading={actionLoading} label="Log Call" icon={<PhoneCall className="w-3.5 h-3.5" />} />
             </div>
           </form>
         )}
 
-        {/* Tab 3: Schedule Follow-up */}
         {activeTab === 'followups' && (
           <form onSubmit={handleScheduleFollowUp} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase">Follow-up Date</label>
-                <input
-                  type="date"
-                  required
-                  value={followUpForm.date}
+              <FormField label="Date">
+                <input type="date" required value={followUpForm.date}
                   onChange={(e) => setFollowUpForm({ ...followUpForm, date: e.target.value })}
-                  className="w-full glass-input text-xs"
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase">Follow-up Time</label>
-                <input
-                  type="time"
-                  required
-                  value={followUpForm.time}
+                  className="w-full glass-input text-xs" />
+              </FormField>
+              <FormField label="Time">
+                <input type="time" required value={followUpForm.time}
                   onChange={(e) => setFollowUpForm({ ...followUpForm, time: e.target.value })}
-                  className="w-full glass-input text-xs"
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-[10px] font-bold text-slate-400 uppercase">Interaction Type</label>
-                <select
-                  value={followUpForm.type}
-                  onChange={(e) => setFollowUpForm({ ...followUpForm, type: e.target.value })}
-                  className="w-full glass-input text-xs"
-                >
-                  <option>Call</option>
-                  <option>WhatsApp</option>
-                  <option>SMS</option>
-                  <option>School Visit</option>
-                  <option>Meeting</option>
+                  className="w-full glass-input text-xs" />
+              </FormField>
+              <FormField label="Type">
+                <select value={followUpForm.type} onChange={(e) => setFollowUpForm({ ...followUpForm, type: e.target.value })}
+                  className="w-full glass-input text-xs">
+                  {['Call', 'WhatsApp', 'SMS', 'School Visit', 'Meeting'].map(t => <option key={t}>{t}</option>)}
                 </select>
-              </div>
+              </FormField>
             </div>
-            <div className="space-y-1">
-              <label className="text-[10px] font-bold text-slate-400 uppercase">Task / Remarks</label>
-              <textarea
-                rows={2}
-                placeholder="Remarks for next interaction (e.g. parents will visit to submit documents)..."
-                value={followUpForm.notes}
-                onChange={(e) => setFollowUpForm({ ...followUpForm, notes: e.target.value })}
-                className="w-full glass-input text-xs"
-              />
-            </div>
+            <FormField label="Remarks">
+              <textarea rows={2} placeholder="Notes for next interaction..."
+                value={followUpForm.notes} onChange={(e) => setFollowUpForm({ ...followUpForm, notes: e.target.value })}
+                className="w-full glass-input text-xs resize-none" />
+            </FormField>
             <div className="flex justify-end">
-              <button
-                type="submit"
-                disabled={actionLoading}
-                className="glass-btn-primary px-4 py-1.5 text-xs font-semibold flex items-center gap-2"
-              >
-                {actionLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                <span>Set Follow-up Task</span>
-              </button>
+              <SubmitBtn loading={actionLoading} label="Schedule Task" icon={<Calendar className="w-3.5 h-3.5" />} />
             </div>
           </form>
         )}
@@ -350,62 +382,123 @@ export function EngagementLogger({
   );
 }
 
-export function ActivityTimeline({ timeline }) {
+function FormField({ label, children }) {
   return (
-    <div className="glass-card p-5 space-y-4">
-      <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider border-b border-gray-200 pb-2">
-        Lead Activity Timeline
-      </h3>
+    <div>
+      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 block">{label}</label>
+      {children}
+    </div>
+  );
+}
 
-      {timeline.length === 0 ? (
-        <div className="text-center py-8 text-xs text-slate-500">No activity logged yet</div>
-      ) : (
-        <div className="relative pl-6 space-y-6 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-200">
-          {timeline.map((item, index) => {
-            let badgeColor = 'bg-gray-100 text-slate-500 border-gray-200';
-            
-            if (item.eventType === 'Created') badgeColor = 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20';
-            if (item.eventType === 'Assigned') badgeColor = 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20';
-            if (item.eventType === 'StatusChange') badgeColor = 'bg-amber-500/10 text-amber-400 border-amber-500/20';
-            if (item.eventType === 'CallLogged') badgeColor = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
-            if (item.eventType === 'NoteAdded') badgeColor = 'bg-purple-500/10 text-purple-400 border-purple-500/20';
-            if (item.eventType === 'FollowUpCreated') badgeColor = 'bg-blue-500/10 text-blue-400 border-blue-500/20';
+function SubmitBtn({ loading, label, icon }) {
+  return (
+    <button type="submit" disabled={loading}
+      className="glass-btn-primary px-5 py-2 text-xs font-bold flex items-center gap-2 rounded-xl shadow-md shadow-brand-500/10 disabled:opacity-60">
+      {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : icon}
+      <span>{label}</span>
+    </button>
+  );
+}
 
-            return (
-              <div key={item._id || index} className="relative flex gap-4 text-xs">
-                {/* Timeline dot */}
-                <span className={`absolute -left-[20px] top-1.5 h-3.5 w-3.5 rounded-full border-2 bg-white flex items-center justify-center ${
-                  item.eventType === 'CallLogged' ? 'border-emerald-500' :
-                  item.eventType === 'StatusChange' ? 'border-amber-500' :
-                  item.eventType === 'NoteAdded' ? 'border-purple-500' :
-                  'border-slate-700'
-                }`}></span>
+/* ─── Activity Timeline (Redesigned) ─── */
+export function ActivityTimeline({ timeline }) {
+  const [filter, setFilter] = useState('All');
 
-                <div className="flex-1 space-y-1.5">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                    <span className={`status-pill ${badgeColor}`}>
-                      {item.eventType}
-                    </span>
-                    <span className="text-[10px] text-slate-550 font-mono">
-                      {new Date(item.createdAt).toLocaleDateString()} at{' '}
-                      {new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  </div>
-                  
-                  <p className="text-slate-600 font-medium">{item.message}</p>
-                  
-                  {item.user && (
-                    <p className="text-[10px] text-slate-500 flex items-center gap-1">
-                      <User className="w-3 h-3 text-slate-655" />
-                      <span>Action by: {item.user.name} ({item.user.role})</span>
-                    </p>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+  const eventConfig = {
+    Created: { color: 'cyan', icon: Zap, label: 'Created' },
+    Assigned: { color: 'indigo', icon: ArrowUpRight, label: 'Assigned' },
+    StatusChange: { color: 'amber', icon: AlertCircle, label: 'Status Change' },
+    CallLogged: { color: 'emerald', icon: PhoneCall, label: 'Call Logged' },
+    NoteAdded: { color: 'purple', icon: MessageSquare, label: 'Note Added' },
+    FollowUpCreated: { color: 'blue', icon: Calendar, label: 'Follow-up' },
+    DuplicateCheck: { color: 'rose', icon: Hash, label: 'Duplicate' },
+  };
+
+  const colorStyles = {
+    cyan:    { dot: 'border-cyan-400 bg-cyan-50', badge: 'bg-cyan-50 text-cyan-600 border-cyan-200' },
+    indigo:  { dot: 'border-indigo-400 bg-indigo-50', badge: 'bg-indigo-50 text-indigo-600 border-indigo-200' },
+    amber:   { dot: 'border-amber-400 bg-amber-50', badge: 'bg-amber-50 text-amber-600 border-amber-200' },
+    emerald: { dot: 'border-emerald-400 bg-emerald-50', badge: 'bg-emerald-50 text-emerald-600 border-emerald-200' },
+    purple:  { dot: 'border-purple-400 bg-purple-50', badge: 'bg-purple-50 text-purple-600 border-purple-200' },
+    blue:    { dot: 'border-blue-400 bg-blue-50', badge: 'bg-blue-50 text-blue-600 border-blue-200' },
+    rose:    { dot: 'border-rose-400 bg-rose-50', badge: 'bg-rose-50 text-rose-600 border-rose-200' },
+  };
+
+  const filteredTimeline = filter === 'All'
+    ? timeline
+    : timeline.filter(item => item.eventType === filter);
+
+  const filterOptions = ['All', ...Object.keys(eventConfig)];
+
+  return (
+    <div className="glass-card overflow-hidden">
+      <div className="px-5 py-3.5 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100 flex items-center justify-between">
+        <h3 className="text-[11px] font-bold text-slate-600 uppercase tracking-widest flex items-center gap-2">
+          <Clock className="w-3.5 h-3.5 text-brand-400" />
+          Activity Timeline
+        </h3>
+        <div className="flex items-center gap-1.5">
+          <Filter className="w-3 h-3 text-slate-400" />
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="text-[10px] font-semibold text-slate-500 bg-transparent border-0 focus:outline-none cursor-pointer pr-4"
+          >
+            {filterOptions.map(f => (
+              <option key={f} value={f}>{f === 'All' ? 'All Activity' : eventConfig[f]?.label || f}</option>
+            ))}
+          </select>
         </div>
-      )}
+      </div>
+
+      <div className="p-5">
+        {filteredTimeline.length === 0 ? (
+          <div className="text-center py-10 text-xs text-slate-400 space-y-2">
+            <Clock className="w-8 h-8 mx-auto text-slate-300" />
+            <p className="font-medium">No activity logged yet</p>
+          </div>
+        ) : (
+          <div className="relative pl-7 space-y-5 before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-px before:bg-gradient-to-b before:from-brand-200 before:via-gray-200 before:to-transparent">
+            {filteredTimeline.map((item, index) => {
+              const config = eventConfig[item.eventType] || { color: 'slate', icon: AlertCircle, label: item.eventType };
+              const styles = colorStyles[config.color] || colorStyles.amber;
+              const Icon = config.icon;
+
+              return (
+                <div key={item._id || index} className="relative group">
+                  {/* Timeline dot */}
+                  <span className={`absolute -left-[22px] top-1 w-4 h-4 rounded-full border-2 flex items-center justify-center ${styles.dot} group-hover:scale-110 transition-transform`}>
+                    <Icon className="w-2 h-2" />
+                  </span>
+
+                  <div className="p-3 rounded-xl bg-gray-50/50 border border-gray-100 hover:bg-white hover:border-gray-200 hover:shadow-sm transition-all duration-200 space-y-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold border ${styles.badge}`}>
+                        {config.label}
+                      </span>
+                      <span className="text-[10px] text-slate-400 font-mono">
+                        {new Date(item.createdAt).toLocaleDateString([], { month: 'short', day: '2-digit', year: 'numeric' })}
+                        {' · '}
+                        {new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    </div>
+
+                    <p className="text-[11px] text-slate-700 font-medium leading-relaxed">{item.message}</p>
+
+                    {item.user && (
+                      <p className="text-[10px] text-slate-400 flex items-center gap-1">
+                        <User className="w-3 h-3" />
+                        {item.user.name} · {item.user.role}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

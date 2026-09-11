@@ -6,7 +6,10 @@ import { PipelineColumn } from '../components/leadpipeline/LeadPipelineComponent
 
 export default function LeadPipeline() {
   const { user } = useAuth();
+  const isCounsellorRole = user?.role === 'Counsellor';
   const [leads, setLeads] = useState([]);
+  const [counsellors, setCounsellors] = useState([]);
+  const [selectedCounsellor, setSelectedCounsellor] = useState('');
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [settings, setSettings] = useState(null);
@@ -28,7 +31,11 @@ export default function LeadPipeline() {
   const fetchPipelineLeads = async () => {
     try {
       setLoading(true);
-      const res = await axios.get('/api/leads?limit=100'); // Load top 100 leads
+      let url = '/api/leads?limit=100';
+      if (selectedCounsellor) {
+        url += `&assignedCounsellor=${selectedCounsellor}`;
+      }
+      const res = await axios.get(url);
       if (res.data.success) {
         setLeads(res.data.data);
       }
@@ -39,11 +46,17 @@ export default function LeadPipeline() {
     }
   };
 
-  const fetchSettings = async () => {
+  const fetchFilterOptions = async () => {
     try {
-      const res = await axios.get('/api/settings');
-      if (res.data.success) {
-        setSettings(res.data.data.settings);
+      const [usersRes, settingsRes] = await Promise.all([
+        axios.get('/api/settings/users'),
+        axios.get('/api/settings')
+      ]);
+      if (usersRes.data.success) {
+        setCounsellors((usersRes.data.data || []).filter(u => u.role === 'Counsellor' && u.status === 'Active'));
+      }
+      if (settingsRes.data.success) {
+        setSettings(settingsRes.data.data.settings);
       }
     } catch (e) {
       console.error(e);
@@ -51,9 +64,12 @@ export default function LeadPipeline() {
   };
 
   useEffect(() => {
-    fetchPipelineLeads();
-    fetchSettings();
+    fetchFilterOptions();
   }, []);
+
+  useEffect(() => {
+    fetchPipelineLeads();
+  }, [selectedCounsellor]);
 
   // HTML5 Drag and Drop Handlers
   const handleDragStart = (e, id) => {
@@ -120,7 +136,25 @@ export default function LeadPipeline() {
             Drag and drop enquiry cards to advance lead status stages.
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
+          {!isCounsellorRole && (
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold text-slate-500 whitespace-nowrap">Filter by Counselor:</span>
+              <select
+                value={selectedCounsellor}
+                onChange={(e) => setSelectedCounsellor(e.target.value)}
+                className="glass-input text-xs py-1.5 px-3 bg-white border-gray-200"
+              >
+                <option value="">All Counselors</option>
+                {counsellors.map((c) => (
+                  <option key={c._id} value={c._id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <div className="relative flex items-center">
             <Search className="w-4 h-4 text-slate-500 absolute left-3 pointer-events-none" />
             <input

@@ -96,7 +96,7 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
     }
   ];
 
-  const filteredItems = menuItems.filter((item) => !item.roles || item.roles.includes(user?.role));
+  const filteredItems = menuItems.filter((item) => !item.roles || item.roles.includes(user?.role) || user?.role === 'SUPER_USER');
 
   const renderLink = (item) => {
     const Icon = item.icon;
@@ -198,7 +198,9 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-xs font-semibold text-slate-200 truncate">{user?.name}</p>
-              <p className="text-[10px] text-slate-500 font-medium truncate">{user?.role}</p>
+              <p className="text-[10px] text-slate-400 font-medium truncate">
+                {user?.designation ? `${user.designation} (${user.role})` : user?.role}
+              </p>
             </div>
           </div>
           <button

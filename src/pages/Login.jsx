@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Lock, Mail, Loader2 } from 'lucide-react';
+import { Lock, Mail, Loader2, Eye, EyeOff } from 'lucide-react';
 
 export default function Login() {
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   // Redirect if already authenticated
   React.useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard');
+      if (user?.mustChangePassword) {
+        navigate('/change-password');
+      } else {
+        navigate('/dashboard');
+      }
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,7 +37,12 @@ export default function Login() {
     setLoading(false);
 
     if (result.success) {
-      navigate('/dashboard');
+      sessionStorage.setItem('showWelcome', 'true');
+      if (result.user?.mustChangePassword) {
+        navigate('/change-password');
+      } else {
+        navigate('/dashboard');
+      }
     } else {
       setError(result.message || 'Login failed.');
     }
@@ -87,14 +97,23 @@ export default function Login() {
               <div className="relative flex items-center">
                 <Lock className="w-4 h-4 text-slate-500 absolute left-3 pointer-events-none" />
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   required
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   disabled={loading}
-                  className="w-full pl-10 glass-input"
+                  className="w-full pl-10 pr-10 glass-input"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 text-slate-500 hover:text-slate-300 focus:outline-none cursor-pointer"
+                  tabIndex={-1}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
               </div>
             </div>
 
@@ -102,7 +121,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 mt-6 glass-btn-primary py-2.5"
+              className="w-full flex items-center justify-center gap-2 mt-6 glass-btn-primary py-2.5 cursor-pointer"
             >
               {loading ? (
                 <>
@@ -115,11 +134,11 @@ export default function Login() {
             </button>
           </form>
 
-          {/* Quick Demo Info */}
+          {/* Super User & Demo Info */}
           <div className="mt-8 pt-6 border-t border-slate-800/80 text-[10px] text-slate-500 space-y-1">
-            <p className="font-bold text-slate-400">Demo Accounts:</p>
-            <p>• Super Admin: <span className="text-slate-300">superadmin@cohenschool.com</span> / password123</p>
-            <p>• Counsellor: <span className="text-slate-300">rahul@cohenschool.com</span> / password123</p>
+            <p className="font-bold text-slate-400">Portal Accounts:</p>
+            <p>• Super Users: <span className="text-slate-300">chairman@coheninternationalschool.com</span></p>
+            <p>• Initial Password: <span className="text-slate-300">Registered mobile number (First-time password change required)</span></p>
           </div>
         </div>
       </div>

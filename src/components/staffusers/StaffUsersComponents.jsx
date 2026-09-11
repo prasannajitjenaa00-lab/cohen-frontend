@@ -182,6 +182,7 @@ export function AddStaffModal({
               <option>Admin</option>
               <option>Admission Staff</option>
               <option>Super Admin</option>
+              <option>SUPER_USER</option>
             </select>
           </div>
 

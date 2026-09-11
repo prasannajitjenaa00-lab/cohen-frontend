@@ -152,6 +152,60 @@
   animation: fadeIn 0.2s ease-out forwards;
 }
 
+@keyframes welcomeBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(-18px) scale(0.96);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(2px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-welcome-bounce {
+  animation: welcomeBounce 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(14deg);
+  }
+  40% {
+    transform: rotate(-8deg);
+  }
+  60% {
+    transform: rotate(14deg);
+  }
+  80% {
+    transform: rotate(-4deg);
+  }
+}
+
+.animate-wave {
+  animation: wave 2s ease-in-out infinite;
+}
+
+@keyframes shrinkWidth {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.animate-shrink-width {
+  animation: shrinkWidth 6s linear forwards;
+}
+
 /* Custom class for Kanban Columns height */
 .kanban-col-height {
   height: calc(100vh - 200px);

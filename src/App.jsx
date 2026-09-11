@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 
 // Pages
 import Login from './pages/Login';
+import ChangePassword from './pages/ChangePassword';
 import Dashboard from './pages/Dashboard';
 import Leads from './pages/Leads';
 import LeadDetail from './pages/LeadDetail';
@@ -36,12 +37,41 @@ const PrivateRoute = ({ children, roles }) => {
     return <Navigate to="/login" replace />;
   }
 
-  // Check role authorization
-  if (roles && !roles.includes(user?.role)) {
+  // Force password change guard
+  if (user?.mustChangePassword) {
+    return <Navigate to="/change-password" replace />;
+  }
+
+  // Check role authorization (SUPER_USER has complete CRM access)
+  if (roles && !roles.includes(user?.role) && user?.role !== 'SUPER_USER') {
     return <Navigate to="/dashboard" replace />;
   }
 
   return children;
+};
+
+// Guard component specifically for Change Password route
+const ChangePasswordRoute = () => {
+  const { isAuthenticated, loading, user } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-xs text-slate-500 font-medium">
+        Loading Portal Session...
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  // If password change is not required, redirect directly to dashboard
+  if (!user?.mustChangePassword) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <ChangePassword />;
 };
 
 // Main Layout Wrapper
@@ -119,6 +149,9 @@ export default function App() {
           {/* Public Login Route */}
           <Route path="/login" element={<Login />} />
           
+          {/* Mandatory Change Password Route */}
+          <Route path="/change-password" element={<ChangePasswordRoute />} />
+
           {/* Protected Dashboard Workspace */}
           <Route
             path="/*"

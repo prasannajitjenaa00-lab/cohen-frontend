@@ -283,7 +283,7 @@ export function LeadsTable({
                       <UserCheck className="w-4 h-4" />
                     </button>
                   )}
-                  {user?.role === 'Super Admin' && (
+                  {(user?.role === 'Super Admin' || user?.role === 'SUPER_USER') && (
                     <button
                       title="Delete"
                       onClick={() => handleDeleteLead(lead._id, lead.studentName)}

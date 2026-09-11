@@ -55,12 +55,33 @@ export const AuthProvider = ({ children }) => {
         setUser(userData);
         axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
         
-        return { success: true };
+        return { success: true, user: userData };
       }
     } catch (error) {
       return {
         success: false,
         message: error.response?.data?.message || 'Login failed. Please check credentials.'
+      };
+    }
+  };
+
+  const changePassword = async (currentPassword, newPassword, confirmPassword) => {
+    try {
+      const response = await axios.post('/api/auth/change-password', {
+        currentPassword,
+        newPassword,
+        confirmPassword
+      });
+
+      if (response.data.success) {
+        setUser(response.data.user);
+        return { success: true, message: response.data.message };
+      }
+      return { success: false, message: response.data.message || 'Password update failed' };
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Failed to update password.'
       };
     }
   };
@@ -94,6 +115,7 @@ export const AuthProvider = ({ children }) => {
     token,
     loading,
     login,
+    changePassword,
     logout,
     isAuthenticated: !!user
   };

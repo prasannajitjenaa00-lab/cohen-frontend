@@ -32,7 +32,7 @@ export default function StaffUsers() {
   };
 
   useEffect(() => {
-    if (user?.role === 'Super Admin') {
+    if (user?.role === 'Super Admin' || user?.role === 'SUPER_USER') {
       fetchUsers();
     }
   }, [user]);
@@ -75,10 +75,10 @@ export default function StaffUsers() {
     }
   };
 
-  if (user?.role !== 'Super Admin') {
+  if (user?.role !== 'Super Admin' && user?.role !== 'SUPER_USER') {
     return (
       <div className="text-center py-20 text-xs text-slate-500">
-        Access Denied. Only Super Admins can manage staff credentials.
+        Access Denied. Only Super Admins and Super Users can manage staff credentials.
       </div>
     );
   }

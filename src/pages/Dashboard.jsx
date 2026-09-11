@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Loader2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { KPICards, DashboardCharts, SubPanels, PerformanceGrids } from '../components/dashboard/DashboardComponents';
+import WelcomeToast from '../components/WelcomeToast';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -65,11 +66,17 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6 animate-fade-in">
+      {/* Animated Welcome Message on Login */}
+      <WelcomeToast user={user} />
+
       {/* Filters Area */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-800">Welcome Back{user?.name ? `, ${user.name}` : ''}</h2>
-          <p className="text-xs text-slate-500">
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold text-slate-800">Welcome Back{user?.name ? `, ${user.name}` : ''}</h2>
+            <span className="text-lg inline-block animate-wave origin-bottom-right" title="Hello!">👋</span>
+          </div>
+          <p className="text-xs text-slate-500 mt-0.5">
             {isCounsellor
               ? 'Here are the leads assigned to you and your activity summary.'
               : 'Here is the school admissions and leads summary.'}

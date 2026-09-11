@@ -38,6 +38,8 @@ export default function Login() {
 
     if (result.success) {
       sessionStorage.setItem('showWelcome', 'true');
+      sessionStorage.setItem('welcomeName', result.user?.name || '');
+      sessionStorage.setItem('welcomeRole', result.user?.designation ? `${result.user.designation} • ${result.user.role}` : (result.user?.role || ''));
       if (result.user?.mustChangePassword) {
         navigate('/change-password');
       } else {

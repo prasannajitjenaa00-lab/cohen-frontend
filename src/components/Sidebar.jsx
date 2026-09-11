@@ -193,13 +193,13 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
         {/* User Footer Profile */}
         <div className="p-4 border-t border-blue-800/40 bg-blue-950/50">
           <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-9 h-9 rounded-full bg-brand-500/10 text-brand-400 font-bold border border-brand-500/20">
-              {user?.name?.charAt(0).toUpperCase()}
+            <div className="flex items-center justify-center w-9 h-9 rounded-full bg-brand-500/20 text-brand-300 font-bold border border-brand-500/30 shadow-inner">
+              {(user?.name || sessionStorage.getItem('welcomeName') || 'U').charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-slate-200 truncate">{user?.name}</p>
+              <p className="text-xs font-semibold text-slate-200 truncate">{user?.name || sessionStorage.getItem('welcomeName') || 'User'}</p>
               <p className="text-[10px] text-slate-400 font-medium truncate">
-                {user?.designation ? `${user.designation} (${user.role})` : user?.role}
+                {user?.designation ? `${user.designation} (${user.role})` : (sessionStorage.getItem('welcomeRole') || user?.role || '')}
               </p>
             </div>
           </div>

@@ -31,6 +31,9 @@ export default function WelcomeToast({ user }) {
 
   if (!visible) return null;
 
+  const displayName = user?.name || sessionStorage.getItem('welcomeName') || '';
+  const displayRole = user?.designation ? `${user.designation} • ${user.role}` : (sessionStorage.getItem('welcomeRole') || user?.role || 'Staff');
+
   return (
     <div
       className={`relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 p-4 sm:p-5 text-white shadow-xl shadow-indigo-950/20 border border-indigo-700/50 transition-all duration-400 ease-out ${
@@ -54,11 +57,13 @@ export default function WelcomeToast({ user }) {
           <div className="space-y-0.5">
             <div className="flex flex-wrap items-center gap-2">
               <h3 className="text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-1.5 font-sans">
-                Welcome back, {user?.name || 'Administrator'}!
+                <span>Welcome,</span>
+                <span className="text-yellow-300 font-extrabold underline decoration-yellow-400/40 underline-offset-4">{displayName || 'User'}</span>
+                <span>!</span>
               </h3>
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white/15 text-blue-200 border border-white/20 backdrop-blur-sm">
                 <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                {user?.designation ? `${user.designation} • ${user.role}` : user?.role || 'Staff'}
+                {displayRole}
               </span>
             </div>
             <p className="text-xs text-blue-100/80">

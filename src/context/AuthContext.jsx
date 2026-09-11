@@ -6,7 +6,14 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
 
@@ -29,6 +36,7 @@ export const AuthProvider = ({ children }) => {
         const response = await axios.get('/api/auth/me');
         if (response.data.success) {
           setUser(response.data.data);
+          localStorage.setItem('user', JSON.stringify(response.data.data));
         } else {
           logout();
         }
@@ -51,6 +59,7 @@ export const AuthProvider = ({ children }) => {
         const { token: userToken, user: userData } = response.data;
         
         localStorage.setItem('token', userToken);
+        localStorage.setItem('user', JSON.stringify(userData));
         setToken(userToken);
         setUser(userData);
         axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
@@ -75,6 +84,7 @@ export const AuthProvider = ({ children }) => {
 
       if (response.data.success) {
         setUser(response.data.user);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
         return { success: true, message: response.data.message };
       }
       return { success: false, message: response.data.message || 'Password update failed' };
@@ -88,6 +98,10 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    sessionStorage.removeItem('welcomeName');
+    sessionStorage.removeItem('welcomeRole');
+    sessionStorage.removeItem('showWelcome');
     setToken(null);
     setUser(null);
     delete axios.defaults.headers.common['Authorization'];

@@ -178,10 +178,13 @@ export default function Topbar({ setMobileOpen }) {
           )}
         </div>
 
-        {/* User Role Pill */}
-        <div className="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs text-slate-600 gap-1.5">
-          <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
-          <span className="font-medium">{user?.role}</span>
+        {/* User Profile Pill */}
+        <div className="hidden sm:inline-flex items-center px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs text-slate-700 gap-2 shadow-xs">
+          <span className="h-2 w-2 rounded-full bg-emerald-500 shrink-0"></span>
+          <span className="font-bold text-slate-800">{user?.name || sessionStorage.getItem('welcomeName') || 'User'}</span>
+          <span className="text-[11px] text-slate-500 border-l border-gray-200 pl-2">
+            {user?.designation ? `${user.designation}` : (sessionStorage.getItem('welcomeRole') || user?.role || '')}
+          </span>
         </div>
       </div>
     </header>

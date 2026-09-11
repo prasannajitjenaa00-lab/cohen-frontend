@@ -55,6 +55,8 @@ export default function ChangePassword() {
 
     if (result.success) {
       sessionStorage.setItem('showWelcome', 'true');
+      sessionStorage.setItem('welcomeName', result.user?.name || user?.name || '');
+      sessionStorage.setItem('welcomeRole', result.user?.designation ? `${result.user.designation} • ${result.user.role}` : (user?.designation ? `${user.designation} • ${user.role}` : 'SUPER_USER'));
       setSuccess('Password updated successfully! Redirecting to CRM dashboard...');
       setTimeout(() => {
         navigate('/dashboard', { replace: true });
@@ -69,6 +71,9 @@ export default function ChangePassword() {
     navigate('/login', { replace: true });
   };
 
+  const displayName = user?.name || sessionStorage.getItem('welcomeName') || 'Administrator';
+  const displayRole = user?.designation ? `${user.designation}` : (sessionStorage.getItem('welcomeRole') || user?.role || '');
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4 relative overflow-hidden">
       {/* Background glowing ambient light */}
@@ -81,9 +86,16 @@ export default function ChangePassword() {
           <div className="bg-white p-3 rounded-2xl shadow-2xl border border-white/20 inline-block mb-3 max-w-[280px]">
             <img src="/logo.png" alt="Cohen International School" className="h-14 w-auto object-contain mx-auto" />
           </div>
+
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/15 border border-blue-500/30 text-blue-200 text-xs font-semibold mb-3 animate-welcome-bounce shadow-lg">
+            <span className="text-sm inline-block animate-wave origin-bottom-right">👋</span>
+            <span>Welcome, <strong className="text-yellow-300 font-bold">{displayName}</strong></span>
+            {displayRole && <span className="text-blue-300/80 font-normal">({displayRole})</span>}
+          </div>
+
           <h2 className="text-xl font-bold text-slate-100">Set Permanent Password</h2>
           <p className="text-xs text-slate-400 mt-1">
-            Welcome, <span className="text-brand-400 font-semibold">{user?.name || 'Administrator'}</span> ({user?.designation || user?.role})
+            Please choose a secure personal password for your first login.
           </p>
         </div>
 

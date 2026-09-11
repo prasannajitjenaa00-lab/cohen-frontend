@@ -64,6 +64,8 @@ export default function Dashboard() {
     );
   }
 
+  const displayName = user?.name || sessionStorage.getItem('welcomeName') || '';
+
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Animated Welcome Message on Login */}
@@ -73,8 +75,12 @@ export default function Dashboard() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold text-slate-800">Welcome Back{user?.name ? `, ${user.name}` : ''}</h2>
-            <span className="text-lg inline-block animate-wave origin-bottom-right" title="Hello!">👋</span>
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight flex items-center gap-1.5">
+              <span>Welcome Back,</span>
+              <span className="text-brand-600 font-extrabold">{displayName || 'User'}</span>
+              <span>!</span>
+            </h2>
+            <span className="text-xl inline-block animate-wave origin-bottom-right" title="Hello!">👋</span>
           </div>
           <p className="text-xs text-slate-500 mt-0.5">
             {isCounsellor

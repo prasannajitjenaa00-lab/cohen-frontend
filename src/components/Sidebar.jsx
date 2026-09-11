@@ -128,8 +128,8 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
           <button
             onClick={() => setOpen(!open)}
             className={`w-full flex items-center justify-between px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 cursor-pointer ${isSubActive(item.path)
-                ? 'bg-brand-600 text-white'
-                : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-100'
+                ? 'bg-[#C5A059] text-[#0B1E36] font-semibold shadow-md shadow-[#C5A059]/20'
+                : 'text-slate-300 hover:bg-[#102A4A]/70 hover:text-white'
               }`}
           >
             <div className="flex items-center gap-3">
@@ -146,8 +146,8 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
                   to={sub.path}
                   onClick={() => setMobileOpen(false)}
                   className={`block px-3 py-2 rounded-md text-xs font-medium transition-all duration-150 ${isActive(sub.path)
-                      ? 'text-brand-400 bg-brand-500/10'
-                      : 'text-slate-400 hover:bg-slate-800/30 hover:text-slate-200'
+                      ? 'text-[#EAB308] bg-[#C5A059]/15 font-semibold border-l-2 border-[#EAB308]'
+                      : 'text-slate-300 hover:bg-[#102A4A]/50 hover:text-white'
                     }`}
                 >
                   {sub.name}
@@ -165,8 +165,8 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
         to={item.path}
         onClick={() => setMobileOpen(false)}
         className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 ${isActive(item.path)
-            ? 'bg-gradient-to-r from-brand-600 to-indigo-600 text-white shadow-md shadow-brand-600/10'
-            : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-100'
+            ? 'bg-gradient-to-r from-[#C5A059] to-[#D4AF37] text-[#0B1E36] font-semibold shadow-md shadow-[#C5A059]/20'
+            : 'text-slate-300 hover:bg-[#102A4A]/70 hover:text-white'
           }`}
       >
         <Icon className="w-5 h-5" />
@@ -180,24 +180,24 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
       {/* Mobile Sidebar Overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-slate-950/80 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-[#081729]/80 backdrop-blur-sm lg:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex flex-col w-64 border-r border-blue-800/40 bg-gradient-to-b from-blue-950 via-blue-900 to-indigo-950 transition-transform duration-300 lg:translate-x-0 lg:static lg:h-screen ${mobileOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed inset-y-0 left-0 z-50 flex flex-col w-64 border-r border-[#C5A059]/20 bg-gradient-to-b from-[#0B1E36] via-[#0E223D] to-[#081729] transition-transform duration-300 lg:translate-x-0 lg:static lg:h-screen ${mobileOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
       >
         {/* Brand Header */}
-        <div className="flex items-center justify-between h-20 px-4 border-b border-blue-800/40">
+        <div className="flex items-center justify-between h-20 px-4 border-b border-[#C5A059]/20">
           <Link to="/dashboard" className="flex items-center flex-1 min-w-0">
-            <div className="bg-white px-3 py-1.5 rounded-xl shadow-md border border-white/30 flex items-center justify-center w-full hover:opacity-95 transition-opacity">
+            <div className="bg-white px-3 py-1.5 rounded-xl shadow-md border border-white/40 flex items-center justify-center w-full hover:opacity-95 transition-opacity">
               <img src="/logo.png" alt="Cohen International School" className="h-11 w-full object-contain" />
             </div>
           </Link>
-          <button onClick={() => setMobileOpen(false)} className="text-slate-400 hover:text-white lg:hidden ml-2">
+          <button onClick={() => setMobileOpen(false)} className="text-slate-300 hover:text-white lg:hidden ml-2">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -208,21 +208,21 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
         </nav>
 
         {/* User Footer Profile */}
-        <div className="p-4 border-t border-blue-800/40 bg-blue-950/50">
+        <div className="p-4 border-t border-[#C5A059]/20 bg-[#081729]/80">
           <div className="flex items-center gap-3 mb-4">
-            <div className="flex items-center justify-center w-9 h-9 rounded-full bg-brand-500/20 text-brand-300 font-bold border border-brand-500/30 shadow-inner">
+            <div className="flex items-center justify-center w-9 h-9 rounded-full bg-[#C5A059] text-[#0B1E36] font-bold border border-[#EAB308] shadow-md">
               {(user?.name || sessionStorage.getItem('welcomeName') || 'U').charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-slate-200 truncate">{user?.name || sessionStorage.getItem('welcomeName') || 'User'}</p>
-              <p className="text-[10px] text-slate-400 font-medium truncate">
+              <p className="text-xs font-semibold text-slate-100 truncate">{user?.name || sessionStorage.getItem('welcomeName') || 'User'}</p>
+              <p className="text-[10px] text-[#C5A059] font-medium truncate">
                 {user?.designation ? `${user.designation} (${user.role})` : (sessionStorage.getItem('welcomeRole') || user?.role || '')}
               </p>
             </div>
           </div>
           <button
             onClick={logout}
-            className="w-full flex items-center justify-center gap-2 px-3 py-2 border border-slate-800 rounded-lg text-xs font-medium text-slate-400 hover:bg-rose-950/30 hover:border-rose-900/30 hover:text-rose-400 transition-all duration-150 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 px-3 py-2 border border-slate-700/60 rounded-lg text-xs font-medium text-slate-300 hover:bg-rose-950/40 hover:border-rose-800/40 hover:text-rose-300 transition-all duration-150 cursor-pointer"
           >
             <LogOut className="w-4 h-4" />
             <span>Sign Out</span>

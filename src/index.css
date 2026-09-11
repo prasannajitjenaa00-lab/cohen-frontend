@@ -53,11 +53,19 @@
   }
 
   .glass-input {
-    @apply bg-gray-50 border border-gray-200 rounded-lg py-2 px-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-brand-500 transition-all duration-200;
+    @apply bg-gray-50 border border-gray-200 rounded-lg py-2 px-3 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C5A059]/40 focus:border-[#C5A059] transition-all duration-200;
   }
 
   .glass-btn-primary {
-    @apply bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-medium py-2 px-4 rounded-lg text-sm shadow-md shadow-brand-500/10 active:scale-[0.98] transition-all duration-200 cursor-pointer;
+    @apply bg-gradient-to-r from-[#0B1E36] to-[#102A4A] hover:from-[#102A4A] hover:to-[#183B64] text-white font-medium py-2 px-4 rounded-lg text-sm border border-[#C5A059]/30 shadow-md hover:shadow-lg active:scale-[0.98] transition-all duration-200 cursor-pointer;
+  }
+
+  .glass-btn-gold {
+    @apply bg-gradient-to-r from-[#C5A059] to-[#D4AF37] hover:from-[#B8860B] hover:to-[#C5A059] text-[#0B1E36] font-semibold py-2 px-4 rounded-lg text-sm shadow-md active:scale-[0.98] transition-all duration-200 cursor-pointer;
+  }
+
+  .glass-btn-green {
+    @apply bg-[#2B7A4B] hover:bg-[#1E6538] text-white font-medium py-2 px-4 rounded-lg text-sm shadow-md active:scale-[0.98] transition-all duration-200 cursor-pointer;
   }
 
   .glass-btn-secondary {

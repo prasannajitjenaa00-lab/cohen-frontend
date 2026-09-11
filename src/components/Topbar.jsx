@@ -120,7 +120,7 @@ export default function Topbar({ setMobileOpen }) {
               placeholder="Search leads, parents, phone..."
               value={searchVal}
               onChange={(e) => setSearchVal(e.target.value)}
-              className="pl-9 pr-3 py-1.5 w-64 text-xs bg-gray-50 border border-gray-200 rounded-lg text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-brand-500 focus:border-brand-500 focus:w-80 transition-all duration-300"
+              className="pl-9 pr-3 py-1.5 w-64 text-xs bg-gray-50 border border-gray-200 rounded-lg text-slate-700 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#C5A059]/40 focus:border-[#C5A059] focus:w-80 transition-all duration-300"
             />
           </form>
         )}
@@ -129,11 +129,11 @@ export default function Topbar({ setMobileOpen }) {
         <div className="relative z-50" ref={dropdownRef}>
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="relative p-1.5 rounded-lg border border-gray-200 bg-gray-50 text-slate-500 hover:text-slate-800 hover:bg-gray-100 transition-all cursor-pointer"
+            className="relative p-1.5 rounded-lg border border-gray-200 bg-gray-50 text-slate-600 hover:text-[#0B1E36] hover:bg-gray-100 transition-all cursor-pointer"
           >
             <Bell className="w-4.5 h-4.5" />
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-rose-500 text-[9px] font-bold text-white ring-2 ring-white">
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#EAB308] text-[9px] font-bold text-[#0B1E36] ring-2 ring-white shadow-xs">
                 {unreadCount}
               </span>
             )}
@@ -142,11 +142,11 @@ export default function Topbar({ setMobileOpen }) {
           {showNotifications && (
             <div className="absolute right-0 mt-2.5 w-80 max-h-96 overflow-y-auto bg-white border border-gray-200 rounded-xl p-2 z-50 animate-fade-in shadow-2xl">
               <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 mb-2">
-                <span className="text-xs font-bold text-slate-700">Alerts & Notifications</span>
+                <span className="text-xs font-bold text-[#0B1E36]">Alerts & Notifications</span>
                 {unreadCount > 0 && (
                   <button
                     onClick={markAllRead}
-                    className="text-[10px] text-brand-400 hover:text-brand-300 flex items-center gap-1 font-semibold cursor-pointer"
+                    className="text-[10px] text-[#B8860B] hover:text-[#9A7007] flex items-center gap-1 font-semibold cursor-pointer"
                   >
                     <Check className="w-3 h-3" />
                     Mark all read
@@ -162,11 +162,11 @@ export default function Topbar({ setMobileOpen }) {
                     <button
                       key={notif._id}
                       onClick={() => handleNotificationClick(notif)}
-                      className={`w-full text-left p-2.5 rounded-lg text-xs transition-colors flex flex-col gap-1 hover:bg-gray-50 ${!notif.read ? 'bg-brand-50 border-l-2 border-brand-500' : 'bg-transparent'
+                      className={`w-full text-left p-2.5 rounded-lg text-xs transition-colors flex flex-col gap-1 hover:bg-gray-50 ${!notif.read ? 'bg-[#FAF5E8] border-l-2 border-[#C5A059]' : 'bg-transparent'
                         }`}
                     >
-                      <p className="font-medium text-slate-700">{notif.message}</p>
-                      <span className="text-[10px] text-slate-500">
+                      <p className="font-medium text-slate-800">{notif.message}</p>
+                      <span className="text-[10px] text-slate-400">
                         {new Date(notif.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} •{' '}
                         {new Date(notif.createdAt).toLocaleDateString()}
                       </span>
@@ -179,10 +179,10 @@ export default function Topbar({ setMobileOpen }) {
         </div>
 
         {/* User Profile Pill */}
-        <div className="hidden sm:inline-flex items-center px-3 py-1 rounded-full border border-gray-200 bg-gray-50 text-xs text-slate-700 gap-2 shadow-xs">
-          <span className="h-2 w-2 rounded-full bg-emerald-500 shrink-0"></span>
-          <span className="font-bold text-slate-800">{user?.name || sessionStorage.getItem('welcomeName') || 'User'}</span>
-          <span className="text-[11px] text-slate-500 border-l border-gray-200 pl-2">
+        <div className="hidden sm:inline-flex items-center px-3 py-1 rounded-full border border-[#C5A059]/30 bg-gradient-to-r from-[#FAF5E8] to-white text-xs text-slate-700 gap-2 shadow-xs">
+          <span className="h-2 w-2 rounded-full bg-[#2B7A4B] shrink-0"></span>
+          <span className="font-bold text-[#0B1E36]">{user?.name || sessionStorage.getItem('welcomeName') || 'User'}</span>
+          <span className="text-[11px] text-[#B8860B] font-medium border-l border-[#C5A059]/30 pl-2">
             {user?.designation ? `${user.designation}` : (sessionStorage.getItem('welcomeRole') || user?.role || '')}
           </span>
         </div>

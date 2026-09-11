@@ -76,6 +76,7 @@ const ChangePasswordRoute = () => {
 
 // Main Layout Wrapper
 const DashboardLayout = () => {
+  const { user } = useAuth();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   return (
@@ -111,16 +112,17 @@ const DashboardLayout = () => {
               </PrivateRoute>
             } />
             <Route path="/marketing/campaigns" element={
-              <PrivateRoute roles={['Super Admin', 'Admin']}>
+              <PrivateRoute roles={['Super Admin', 'Admin', 'CGO']}>
                 <CampaignPerformance />
               </PrivateRoute>
             } />
             <Route path="/marketing/sources" element={
-              <PrivateRoute roles={['Super Admin', 'Admin']}>
+              <PrivateRoute roles={['Super Admin', 'Admin', 'CGO']}>
                 <LeadSources />
               </PrivateRoute>
             } />
-            <Route path="/marketing" element={<Navigate to="/marketing/google" replace />} />
+            <Route path="/marketing" element={<Navigate to={user?.role === 'CGO' ? '/marketing/campaigns' : '/marketing/google'} replace />} />
+            <Route path="/reports" element={<Navigate to="/dashboard" replace />} />
 
             <Route path="/users" element={
               <PrivateRoute roles={['Super Admin']}>

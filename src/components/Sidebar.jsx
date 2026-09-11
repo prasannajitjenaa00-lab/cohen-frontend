@@ -33,13 +33,13 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
       name: 'Dashboard',
       icon: LayoutDashboard,
       path: '/dashboard',
-      roles: ['Super Admin', 'Admin', 'Counsellor', 'Admission Staff']
+      roles: ['Super Admin', 'Admin', 'Counsellor', 'Admission Staff', 'CGO']
     },
     {
       name: 'Leads',
       icon: Users2,
       path: '/leads',
-      roles: ['Super Admin', 'Admin', 'Counsellor'],
+      roles: ['Super Admin', 'Admin', 'Counsellor', 'CGO'],
       submenu: [
         { name: user?.role === 'Counsellor' ? 'My Leads' : 'All Leads', path: '/leads' },
         { name: user?.role === 'Counsellor' ? 'My New Leads' : 'New Leads', path: '/leads?status=New' },
@@ -50,28 +50,28 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
       name: 'Follow-ups',
       icon: Clock,
       path: '/followups',
-      roles: ['Super Admin', 'Admin', 'Counsellor']
+      roles: ['Super Admin', 'Admin', 'Counsellor', 'CGO']
     },
     {
       name: 'Admissions',
       icon: FileText,
       path: '/admissions',
-      roles: ['Super Admin', 'Admin', 'Admission Staff']
+      roles: ['Super Admin', 'Admin', 'Admission Staff', 'CGO']
     },
     {
       name: 'Students',
       icon: GraduationCap,
       path: '/students',
-      roles: ['Super Admin', 'Admin', 'Admission Staff']
+      roles: ['Super Admin', 'Admin', 'Admission Staff', 'CGO']
     },
     {
       name: 'Marketing',
       icon: Megaphone,
       path: '/marketing',
-      roles: ['Super Admin', 'Admin'],
+      roles: ['Super Admin', 'Admin', 'CGO'],
       submenu: [
-        { name: 'Google Ads Integration', path: '/marketing/google' },
-        { name: 'Meta Ads Integration', path: '/marketing/meta' },
+        { name: 'Google Ads Integration', path: '/marketing/google', roles: ['Super Admin', 'Admin'] },
+        { name: 'Meta Ads Integration', path: '/marketing/meta', roles: ['Super Admin'] },
         { name: 'Campaign Performance', path: '/marketing/campaigns' },
         { name: 'Lead Sources', path: '/marketing/sources' }
       ]
@@ -80,7 +80,7 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
       name: 'Reports',
       icon: BarChart3,
       path: '/reports',
-      roles: ['Super Admin', 'Admin']
+      roles: ['Super Admin', 'Admin', 'CGO']
     },
     {
       name: 'Staff Users',
@@ -96,7 +96,17 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
     }
   ];
 
-  const filteredItems = menuItems.filter((item) => !item.roles || item.roles.includes(user?.role) || user?.role === 'SUPER_USER');
+  const filteredItems = menuItems
+    .filter((item) => !item.roles || item.roles.includes(user?.role) || user?.role === 'SUPER_USER')
+    .map((item) => {
+      if (item.submenu) {
+        return {
+          ...item,
+          submenu: item.submenu.filter(sub => !sub.roles || sub.roles.includes(user?.role) || user?.role === 'SUPER_USER')
+        };
+      }
+      return item;
+    });
 
   const renderLink = (item) => {
     const Icon = item.icon;

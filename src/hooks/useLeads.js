@@ -35,6 +35,13 @@ export default function useLeads() {
   const [selectedLead, setSelectedLead] = useState(null);
   const [targetCounsellor, setTargetCounsellor] = useState('');
 
+  // Bulk Allocation Controls
+  const [selectedLeadIds, setSelectedLeadIds] = useState([]);
+  const [showBulkAssignModal, setShowBulkAssignModal] = useState(false);
+  const [bulkStaffId, setBulkStaffId] = useState('');
+  const [bulkLoading, setBulkLoading] = useState(false);
+  const [bulkError, setBulkError] = useState('');
+
   // Form State
   const [newLeadForm, setNewLeadForm] = useState({
     studentName: '',
@@ -62,7 +69,11 @@ export default function useLeads() {
         axios.get('/api/settings')
       ]);
       if (usersRes.data.success) {
-        setCounsellors((usersRes.data.data || []).filter(u => u.role === 'Counsellor' && u.status === 'Active'));
+        // Permitted staff for lead allocation: Counsellors, Admission Staff, Senior Zonal Managers, Admissions Officers
+        const permittedStaff = (usersRes.data.data || []).filter(
+          u => u.status === 'Active' && u.role !== 'SUPER_USER' && u.role !== 'CGO'
+        );
+        setCounsellors(permittedStaff);
       }
       if (settingsRes.data.success) {
         setSettings(settingsRes.data.data.settings);
@@ -165,13 +176,14 @@ export default function useLeads() {
     }
   };
 
-  // Handle Counsellor Assignment Submit
+  // Handle Staff Assignment Submit (Single Lead)
   const handleAssignSubmit = async (e) => {
     e.preventDefault();
     if (!targetCounsellor) return;
 
     try {
       const res = await axios.post(`/api/leads/${selectedLead._id}/assign`, {
+        targetStaffId: targetCounsellor,
         counsellorId: targetCounsellor
       });
       if (res.data.success) {
@@ -182,6 +194,54 @@ export default function useLeads() {
       }
     } catch (e) {
       console.error(e);
+    }
+  };
+
+  // Toggle selection for a single lead checkbox
+  const toggleSelectLead = (id) => {
+    setSelectedLeadIds(prev =>
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    );
+  };
+
+  // Select all leads on the current page
+  const selectAllLeads = () => {
+    if (selectedLeadIds.length === leads.length && leads.length > 0) {
+      setSelectedLeadIds([]);
+    } else {
+      setSelectedLeadIds(leads.map(l => l._id));
+    }
+  };
+
+  // Clear all selections
+  const clearSelectedLeads = () => {
+    setSelectedLeadIds([]);
+  };
+
+  // Handle Bulk Lead Allocation Submit
+  const handleBulkAssignSubmit = async (e) => {
+    if (e) e.preventDefault();
+    if (!bulkStaffId || selectedLeadIds.length === 0) return;
+
+    try {
+      setBulkLoading(true);
+      setBulkError('');
+      const res = await axios.post('/api/leads/bulk-assign', {
+        leadIds: selectedLeadIds,
+        targetStaffId: bulkStaffId
+      });
+
+      if (res.data.success) {
+        setShowBulkAssignModal(false);
+        setSelectedLeadIds([]);
+        setBulkStaffId('');
+        fetchLeads();
+      }
+    } catch (err) {
+      console.error(err);
+      setBulkError(err.response?.data?.message || 'Failed to bulk allocate leads');
+    } finally {
+      setBulkLoading(false);
     }
   };
 
@@ -247,6 +307,18 @@ export default function useLeads() {
     setSelectedLead,
     targetCounsellor,
     setTargetCounsellor,
+    selectedLeadIds,
+    setSelectedLeadIds,
+    showBulkAssignModal,
+    setShowBulkAssignModal,
+    bulkStaffId,
+    setBulkStaffId,
+    bulkLoading,
+    bulkError,
+    toggleSelectLead,
+    selectAllLeads,
+    clearSelectedLeads,
+    handleBulkAssignSubmit,
     newLeadForm,
     setNewLeadForm,
     formError,

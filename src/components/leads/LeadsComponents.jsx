@@ -147,6 +147,11 @@ export function LeadsTable({
   setSelectedLead,
   setShowAssignModal,
   handleDeleteLead,
+  selectedLeadIds = [],
+  toggleSelectLead,
+  selectAllLeads,
+  clearSelectedLeads,
+  setShowBulkAssignModal,
   page,
   limit,
   total,
@@ -167,9 +172,47 @@ export function LeadsTable({
 
   return (
     <div className="overflow-x-auto">
+      {/* Bulk Allocation Action Toolbar */}
+      {selectedLeadIds && selectedLeadIds.length > 0 && (
+        <div className="bg-gradient-to-r from-brand-50 to-indigo-50 border-b border-brand-200 px-5 py-2.5 flex items-center justify-between animate-fade-in text-xs text-brand-900">
+          <div className="flex items-center gap-2">
+            <span className="font-bold bg-brand-600 text-white px-2 py-0.5 rounded-full text-[11px] shadow-sm">
+              {selectedLeadIds.length}
+            </span>
+            <span className="font-semibold text-slate-700">lead{selectedLeadIds.length > 1 ? 's' : ''} selected for allocation</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowBulkAssignModal(true)}
+              className="px-3.5 py-1.5 bg-brand-600 hover:bg-brand-700 text-white rounded-lg font-semibold flex items-center gap-1.5 shadow-sm transition-all cursor-pointer text-xs"
+            >
+              <UserCheck className="w-3.5 h-3.5" />
+              <span>Allocate Selected Leads</span>
+            </button>
+            <button
+              onClick={clearSelectedLeads}
+              className="px-3 py-1.5 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-white/80 transition-all cursor-pointer text-xs"
+            >
+              Clear Selection
+            </button>
+          </div>
+        </div>
+      )}
+
       <table className="w-full text-left border-collapse">
         <thead>
           <tr className="border-b border-gray-200 text-[10px] text-slate-500 font-semibold uppercase tracking-wider bg-gray-50/80">
+            {user?.role !== 'Counsellor' && (
+              <th className="py-3 px-3 w-10 text-center">
+                <input
+                  type="checkbox"
+                  checked={leads.length > 0 && selectedLeadIds?.length === leads.length}
+                  onChange={selectAllLeads}
+                  className="rounded border-gray-300 text-brand-600 focus:ring-brand-500 cursor-pointer"
+                  title="Select all on this page"
+                />
+              </th>
+            )}
             <th className="py-3 px-5">Lead & Contact</th>
             <th className="py-3 px-3">Class</th>
             <th className="py-3 px-3">Source Channel</th>
@@ -183,7 +226,17 @@ export function LeadsTable({
         </thead>
         <tbody className="divide-y divide-gray-100 text-xs">
           {leads.map((lead) => (
-            <tr key={lead._id} className="hover:bg-gray-50 transition-all">
+            <tr key={lead._id} className={`hover:bg-gray-50 transition-all ${selectedLeadIds?.includes(lead._id) ? 'bg-brand-50/40' : ''}`}>
+              {user?.role !== 'Counsellor' && (
+                <td className="py-3.5 px-3 text-center">
+                  <input
+                    type="checkbox"
+                    checked={selectedLeadIds?.includes(lead._id)}
+                    onChange={() => toggleSelectLead(lead._id)}
+                    className="rounded border-gray-300 text-brand-600 focus:ring-brand-500 cursor-pointer"
+                  />
+                </td>
+              )}
               {/* Name & ID & Phone */}
               <td className="py-3.5 px-5">
                 <div className="space-y-0.5">
@@ -550,21 +603,25 @@ export function AssignCounsellorModal({
         >
           <X className="w-5 h-5" />
         </button>
-        <h3 className="text-lg font-bold text-slate-700 mb-2">Assign Academic Advisor</h3>
+        <h3 className="text-lg font-bold text-slate-700 mb-2">Allocate Lead</h3>
         <p className="text-xs text-slate-450 mb-4">
-          Allocate Lead <span className="font-bold text-slate-700">{selectedLead?.studentName} ({selectedLead?.leadId})</span> to an active advisor.
+          Allocate Lead <span className="font-bold text-slate-700">{selectedLead?.studentName} ({selectedLead?.leadId})</span> to an active staff member.
         </p>
         <form onSubmit={handleAssignSubmit} className="space-y-4">
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-slate-450 font-sans">Advisor Dropdown</label>
+            <label className="text-xs font-semibold text-slate-450 font-sans">Staff Member</label>
             <select
               required
               value={targetCounsellor}
               onChange={(e) => setTargetCounsellor(e.target.value)}
               className="w-full glass-input text-xs"
             >
-              <option value="">Select Advisor...</option>
-              {counsellors.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
+              <option value="">Select Staff Member...</option>
+              {counsellors.map(c => (
+                <option key={c._id} value={c._id}>
+                  {c.name} — {c.designation || c.role}
+                </option>
+              ))}
             </select>
           </div>
           <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
@@ -576,7 +633,82 @@ export function AssignCounsellorModal({
               Cancel
             </button>
             <button type="submit" className="glass-btn-primary px-4 py-1.5 text-xs">
-              Re-assign
+              Confirm Allocation
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+export function BulkAssignModal({
+  showBulkAssignModal,
+  setShowBulkAssignModal,
+  selectedLeadIds,
+  bulkStaffId,
+  setBulkStaffId,
+  counsellors,
+  handleBulkAssignSubmit,
+  bulkLoading,
+  bulkError
+}) {
+  if (!showBulkAssignModal) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+      <div className="glass-card bg-white w-full max-w-md border border-gray-200 p-6 animate-fade-in relative shadow-2xl">
+        <button
+          onClick={() => setShowBulkAssignModal(false)}
+          className="absolute top-4 right-4 text-slate-500 hover:text-slate-800 cursor-pointer"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <h3 className="text-lg font-bold text-slate-700 mb-2 flex items-center gap-2">
+          <span>👥</span> Bulk Allocate Leads
+        </h3>
+        <p className="text-xs text-slate-500 mb-4">
+          Allocating <span className="font-bold text-brand-600">{selectedLeadIds?.length} selected leads</span> to an active staff member (Senior Zonal Manager, Counsellor, Admissions Officer, or Admission Staff).
+        </p>
+
+        {bulkError && (
+          <div className="mb-4 p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 text-xs text-rose-500 font-semibold">
+            {bulkError}
+          </div>
+        )}
+
+        <form onSubmit={handleBulkAssignSubmit} className="space-y-4">
+          <div className="space-y-1">
+            <label className="text-xs font-semibold text-slate-600 font-sans">Allocate To Staff Member</label>
+            <select
+              required
+              value={bulkStaffId}
+              onChange={(e) => setBulkStaffId(e.target.value)}
+              className="w-full glass-input text-xs"
+            >
+              <option value="">Select Staff Member...</option>
+              {counsellors.map(c => (
+                <option key={c._id} value={c._id}>
+                  {c.name} — {c.designation || c.role}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200">
+            <button
+              type="button"
+              onClick={() => setShowBulkAssignModal(false)}
+              className="glass-btn-secondary px-3 py-1.5 text-xs"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={bulkLoading || !bulkStaffId}
+              className="glass-btn-primary px-4 py-1.5 text-xs flex items-center gap-2"
+            >
+              {bulkLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+              <span>Confirm Allocation ({selectedLeadIds?.length})</span>
             </button>
           </div>
         </form>

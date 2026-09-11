@@ -1,7 +1,7 @@
 import React from 'react';
 import useLeads from '../hooks/useLeads';
 import LeadsHeader from '../components/leads/LeadsHeader';
-import { LeadsFilters, LeadsTable, AddLeadModal, AssignCounsellorModal } from '../components/leads/LeadsComponents';
+import { LeadsFilters, LeadsTable, AddLeadModal, AssignCounsellorModal, BulkAssignModal } from '../components/leads/LeadsComponents';
 
 export default function Leads() {
   const {
@@ -38,6 +38,17 @@ export default function Leads() {
     setSelectedLead,
     targetCounsellor,
     setTargetCounsellor,
+    selectedLeadIds,
+    toggleSelectLead,
+    selectAllLeads,
+    clearSelectedLeads,
+    showBulkAssignModal,
+    setShowBulkAssignModal,
+    bulkStaffId,
+    setBulkStaffId,
+    bulkLoading,
+    bulkError,
+    handleBulkAssignSubmit,
     newLeadForm,
     setNewLeadForm,
     formError,
@@ -100,6 +111,11 @@ export default function Leads() {
           setSelectedLead={setSelectedLead}
           setShowAssignModal={setShowAssignModal}
           handleDeleteLead={handleDeleteLead}
+          selectedLeadIds={selectedLeadIds}
+          toggleSelectLead={toggleSelectLead}
+          selectAllLeads={selectAllLeads}
+          clearSelectedLeads={clearSelectedLeads}
+          setShowBulkAssignModal={setShowBulkAssignModal}
           page={page}
           limit={limit}
           total={total}
@@ -120,7 +136,7 @@ export default function Leads() {
         settings={settings}
       />
 
-      {/* 2. Modal: Assign Counsellor */}
+      {/* 2. Modal: Allocate Single Lead */}
       <AssignCounsellorModal
         showAssignModal={showAssignModal}
         setShowAssignModal={setShowAssignModal}
@@ -130,6 +146,19 @@ export default function Leads() {
         setTargetCounsellor={setTargetCounsellor}
         counsellors={counsellors}
         handleAssignSubmit={handleAssignSubmit}
+      />
+
+      {/* 3. Modal: Bulk Allocate Leads */}
+      <BulkAssignModal
+        showBulkAssignModal={showBulkAssignModal}
+        setShowBulkAssignModal={setShowBulkAssignModal}
+        selectedLeadIds={selectedLeadIds}
+        bulkStaffId={bulkStaffId}
+        setBulkStaffId={setBulkStaffId}
+        counsellors={counsellors}
+        handleBulkAssignSubmit={handleBulkAssignSubmit}
+        bulkLoading={bulkLoading}
+        bulkError={bulkError}
       />
     </div>
   );

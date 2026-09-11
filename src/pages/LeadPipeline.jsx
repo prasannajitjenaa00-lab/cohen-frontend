@@ -53,7 +53,7 @@ export default function LeadPipeline() {
         axios.get('/api/settings')
       ]);
       if (usersRes.data.success) {
-        setCounsellors((usersRes.data.data || []).filter(u => u.role === 'Counsellor' && u.status === 'Active'));
+        setCounsellors((usersRes.data.data || []).filter(u => u.status === 'Active' && u.role !== 'SUPER_USER' && u.role !== 'CGO'));
       }
       if (settingsRes.data.success) {
         setSettings(settingsRes.data.data.settings);

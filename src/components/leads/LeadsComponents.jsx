@@ -116,7 +116,7 @@ export function LeadsFilters({
           <label className="text-[10px] font-bold text-slate-400 uppercase">Advisor</label>
           <select
             value={counsellor}
-            disabled={user?.role === 'Counsellor'}
+            disabled={['Counsellor', 'Senior Zonal Manager'].includes(user?.role)}
             onChange={(e) => { setCounsellor(e.target.value); setPage(1); }}
             className="w-full glass-input text-xs py-1.5 disabled:opacity-50"
           >
@@ -170,10 +170,12 @@ export function LeadsTable({
     return <div className="text-center py-20 text-xs text-slate-500">No leads matched filters</div>;
   }
 
+  const canAllocateLeads = ['Super Admin', 'Admin', 'CGO', 'SUPER_USER'].includes(user?.role);
+
   return (
     <div className="overflow-x-auto">
       {/* Bulk Allocation Action Toolbar */}
-      {selectedLeadIds && selectedLeadIds.length > 0 && (
+      {canAllocateLeads && selectedLeadIds && selectedLeadIds.length > 0 && (
         <div className="bg-gradient-to-r from-brand-50 to-indigo-50 border-b border-brand-200 px-5 py-2.5 flex items-center justify-between animate-fade-in text-xs text-brand-900">
           <div className="flex items-center gap-2">
             <span className="font-bold bg-brand-600 text-white px-2 py-0.5 rounded-full text-[11px] shadow-sm">
@@ -202,7 +204,7 @@ export function LeadsTable({
       <table className="w-full text-left border-collapse">
         <thead>
           <tr className="border-b border-gray-200 text-[10px] text-slate-500 font-semibold uppercase tracking-wider bg-gray-50/80">
-            {user?.role !== 'Counsellor' && (
+            {canAllocateLeads && (
               <th className="py-3 px-3 w-10 text-center">
                 <input
                   type="checkbox"
@@ -227,7 +229,7 @@ export function LeadsTable({
         <tbody className="divide-y divide-gray-100 text-xs">
           {leads.map((lead) => (
             <tr key={lead._id} className={`hover:bg-gray-50 transition-all ${selectedLeadIds?.includes(lead._id) ? 'bg-brand-50/40' : ''}`}>
-              {user?.role !== 'Counsellor' && (
+              {canAllocateLeads && (
                 <td className="py-3.5 px-3 text-center">
                   <input
                     type="checkbox"
@@ -327,7 +329,7 @@ export function LeadsTable({
                   >
                     <Eye className="w-4 h-4" />
                   </Link>
-                  {user?.role !== 'Counsellor' && (
+                  {canAllocateLeads && (
                     <button
                       title="Assign Counsellor"
                       onClick={() => { setSelectedLead(lead); setShowAssignModal(true); }}

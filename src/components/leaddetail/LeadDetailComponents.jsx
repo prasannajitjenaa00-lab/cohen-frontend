@@ -7,7 +7,7 @@ import {
 
 /* ─── Stage Tracker (Redesigned Horizontal Stepper) ─── */
 export function StageTracker({ user, pipelineStatuses, currentStatusIndex, handleStatusChange }) {
-  const isCounsellor = user?.role === 'Counsellor';
+  const canUpdateStatus = ['Counsellor', 'Senior Zonal Manager'].includes(user?.role);
 
   return (
     <div className="glass-card p-5 overflow-hidden">
@@ -15,9 +15,9 @@ export function StageTracker({ user, pipelineStatuses, currentStatusIndex, handl
         <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
           <Zap className="w-3.5 h-3.5 text-brand-400" />
           Admissions Pipeline
-          {!isCounsellor && (
+          {!canUpdateStatus && (
             <span className="text-[9px] font-normal text-slate-400 normal-case bg-gray-100 px-2 py-0.5 rounded border border-gray-200">
-              Read-Only (Only Counselor can update)
+              Read-Only
             </span>
           )}
         </h4>
@@ -42,10 +42,10 @@ export function StageTracker({ user, pipelineStatuses, currentStatusIndex, handl
             return (
               <button
                 key={status}
-                disabled={!isCounsellor}
-                onClick={() => isCounsellor && handleStatusChange(status)}
-                className={`flex flex-col items-center gap-1.5 group ${isCounsellor ? 'cursor-pointer' : 'cursor-default'}`}
-                title={isCounsellor ? `Change status to ${status}` : `${status} (Read-only for Admins)`}
+                disabled={!canUpdateStatus}
+                onClick={() => canUpdateStatus && handleStatusChange(status)}
+                className={`flex flex-col items-center gap-1.5 group ${canUpdateStatus ? 'cursor-pointer' : 'cursor-default'}`}
+                title={canUpdateStatus ? `Change status to ${status}` : `${status} (Read-only)`}
               >
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold border-2 transition-all duration-300 ${
                   isActive
@@ -248,7 +248,7 @@ export function EngagementLogger({
   handleLogCall, callForm, setCallForm,
   handleScheduleFollowUp, followUpForm, setFollowUpForm
 }) {
-  const isCounsellor = user?.role === 'Counsellor';
+  const canLogEngagement = ['Counsellor', 'Senior Zonal Manager'].includes(user?.role);
 
   const tabs = [
     { id: 'notes', label: 'Write Note', icon: MessageSquare, color: 'purple' },
@@ -257,7 +257,7 @@ export function EngagementLogger({
   ];
 
   // Admin read-only view
-  if (!isCounsellor) {
+  if (!canLogEngagement) {
     return (
       <div className="glass-card overflow-hidden">
         <div className="px-5 py-3 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
@@ -271,7 +271,7 @@ export function EngagementLogger({
           </div>
           <p className="text-sm font-bold text-slate-600">View-Only Access</p>
           <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
-            Only assigned Counsellors can add notes, log calls, and schedule follow-ups. Review activity in the timeline below.
+            Only assigned staff and counsellors can add notes, log calls, and schedule follow-ups. Review activity in the timeline below.
           </p>
         </div>
       </div>

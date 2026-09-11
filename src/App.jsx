@@ -97,8 +97,16 @@ const DashboardLayout = () => {
             <Route path="/leads/:id" element={<LeadDetail />} />
             <Route path="/pipeline" element={<LeadPipeline />} />
             <Route path="/followups" element={<FollowUps />} />
-            <Route path="/admissions" element={<Admissions />} />
-            <Route path="/students" element={<Students />} />
+            <Route path="/admissions" element={
+              <PrivateRoute roles={['Super Admin', 'Admin', 'Admission Staff', 'CGO']}>
+                <Admissions />
+              </PrivateRoute>
+            } />
+            <Route path="/students" element={
+              <PrivateRoute roles={['Super Admin', 'Admin', 'Admission Staff', 'CGO']}>
+                <Students />
+              </PrivateRoute>
+            } />
             
             {/* Marketing & Ad Integrations */}
             <Route path="/marketing/google" element={

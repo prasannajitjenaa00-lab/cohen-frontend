@@ -33,16 +33,16 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
       name: 'Dashboard',
       icon: LayoutDashboard,
       path: '/dashboard',
-      roles: ['Super Admin', 'Admin', 'Counsellor', 'Admission Staff', 'CGO']
+      roles: ['Super Admin', 'Admin', 'Counsellor', 'Admission Staff', 'CGO', 'Senior Zonal Manager']
     },
     {
       name: 'Leads',
       icon: Users2,
       path: '/leads',
-      roles: ['Super Admin', 'Admin', 'Counsellor', 'CGO'],
+      roles: ['Super Admin', 'Admin', 'Counsellor', 'CGO', 'Senior Zonal Manager'],
       submenu: [
-        { name: user?.role === 'Counsellor' ? 'My Leads' : 'All Leads', path: '/leads' },
-        { name: user?.role === 'Counsellor' ? 'My New Leads' : 'New Leads', path: '/leads?status=New' },
+        { name: ['Counsellor', 'Senior Zonal Manager'].includes(user?.role) ? 'My Leads' : 'All Leads', path: '/leads' },
+        { name: ['Counsellor', 'Senior Zonal Manager'].includes(user?.role) ? 'My New Leads' : 'New Leads', path: '/leads?status=New' },
         { name: 'Lead Pipeline', path: '/pipeline' }
       ]
     },
@@ -50,7 +50,7 @@ export default function Sidebar({ mobileOpen, setMobileOpen }) {
       name: 'Follow-ups',
       icon: Clock,
       path: '/followups',
-      roles: ['Super Admin', 'Admin', 'Counsellor', 'CGO']
+      roles: ['Super Admin', 'Admin', 'Counsellor', 'CGO', 'Senior Zonal Manager']
     },
     {
       name: 'Admissions',

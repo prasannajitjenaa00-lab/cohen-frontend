@@ -137,7 +137,7 @@ export default function LeadPipeline() {
           </p>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
-          {!isCounsellorRole && (
+          {!['Counsellor', 'Senior Zonal Manager'].includes(user?.role) && (
             <div className="flex items-center gap-2">
               <span className="text-xs font-semibold text-slate-500 whitespace-nowrap">Filter by Counselor:</span>
               <select
